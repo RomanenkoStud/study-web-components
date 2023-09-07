@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/src/styles.css">
+    <script type="importmap">
+        {
+            "imports": {
+                "simple-timestamp": "https://unpkg.com/@romanenko.pavlo/simple-timestamp@1.0.0/dist/simple-timestamp.mjs"
+            }
+        }
+    </script>
+    <script type="module" src="/src/index.ts"></script>
+</head>
+<body>
+    <div class="min-h-screen p-10">
+        <simple-timestamp
+            class="
+                block 
+                w-36 
+                text-center 
+                rounded-md 
+                border 
+                bg-gray-200
+                shadow-md
+            " 
+            locale='en-US' 
+            timezone="America/New_York"
+            value='2023-03-29T12:25:07.427Z'
+        />
+    </div>
+</body>
+</html>
