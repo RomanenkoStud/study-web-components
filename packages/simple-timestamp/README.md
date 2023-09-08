@@ -20,7 +20,7 @@ The SimpleTimestamp component is a custom LitElement component for displaying fo
 
 #### Attributes
 
-- value: Date - The date value to be displayed. Default is current time.
+- value: String - ISO 8601 timestamp value to be displayed.
 - locale: String - The locale for formatting. Default is the user's browser locale.
 - timezone: String - The timezone to use for formatting. Default is the user's browser timezone.
 - label: String - A label to display before the timestamp.

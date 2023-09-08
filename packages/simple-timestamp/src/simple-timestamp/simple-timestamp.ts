@@ -25,15 +25,8 @@ export class SimpleTimestamp extends LitElement {
         short: 2
     } as const;
 
-    @property({ converter: {
-        toAttribute(value: Date): string {
-            return value.toISOString();
-        },
-        fromAttribute(value: string | null): Date {
-            return new Date(value ?? '');
-        }
-    }})
-    value: Date = new Date();
+    @property({ type: String })
+    value: string = '';
 
     @property({ type: String })
     locale = navigator.language;
@@ -47,15 +40,17 @@ export class SimpleTimestamp extends LitElement {
     private currentFormatIndex = 0;
 
     private formattedDate = (): string => {
+        const dateValue = new Date(this.value);
+
         switch (this.currentFormatIndex) {
             case SimpleTimestamp.formats.time:
-                return formatTime(this.value, this.locale, this.timezone);
+                return formatTime(dateValue, this.locale, this.timezone);
     
             case  SimpleTimestamp.formats.short:
-                return formatShortDate(this.value, this.locale, this.timezone);
+                return formatShortDate(dateValue, this.locale, this.timezone);
     
             default:
-                return formatRelativeDate(this.value, this.locale);
+                return formatRelativeDate(dateValue, this.locale);
         }
     };
 
@@ -72,12 +67,16 @@ export class SimpleTimestamp extends LitElement {
     render() {
         const prefix = this.label ? ': ' : '';
 
+        if (!this.value) {
+            throw new Error('The "value" attribute must be provided.');
+        }
+
         try {
-            return html`<div>${this.label}${prefix}${this.formattedDate()}</div>`;
+            return html`<div title="${this.value}">${this.label}${prefix}${this.formattedDate()}</div>`;
         }
         catch (error) {
             // Handle the parse error by displaying the value text content with wavy red underline
-            return html`<div><span class="error-text">${this.value}</span></div>`;
+            return html`<div title="${this.value}"><span class="error-text">${this.value}</span></div>`;
         }
     }
 }
