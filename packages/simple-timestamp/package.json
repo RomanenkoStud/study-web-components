@@ -1,8 +1,10 @@
 {
   "name": "@romanenko.pavlo/simple-timestamp",
-  "version": "1.0.0",
-  "description": "",
-  "files": ["dist"],
+  "version": "1.0.1",
+  "description": "A simple timestamp library for formatting and displaying timestamps.",
+  "files": [
+    "dist"
+  ],
   "main": "./dist/simple-timestamp.umd.cjs",
   "module": "./dist/simple-timestamp.mjs",
   "types": "dist/index.d.ts",
@@ -15,13 +17,16 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest",
+    "publish-patch": "npm version patch && npm publish --access public"
   },
   "author": "RomanenkoStud",
   "license": "ISC",
   "dependencies": {
     "lit": "^2.8.0",
     "vite": "^4.4.9",
-    "vite-plugin-dts": "^3.5.3"
+    "vite-plugin-dts": "^3.5.3",
+    "vitest": "^0.34.3"
   }
 }

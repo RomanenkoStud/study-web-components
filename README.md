@@ -1,4 +1,4 @@
-# Lit Components + Tailwind + Vite
+# LitElement + Tailwind + Vite
 
 ## Description
 

@@ -1,1 +1,2 @@
-export {SimpleTimestamp} from './simple-timestamp';
+export * from './simple-timestamp';
+export * from './utils';

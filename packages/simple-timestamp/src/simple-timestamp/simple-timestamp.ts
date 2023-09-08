@@ -1,5 +1,10 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import {
+    formatTime,
+    formatShortDate,
+    formatRelativeDate
+} from '../utils';
 
 @customElement('simple-timestamp')
 export class SimpleTimestamp extends LitElement {
@@ -8,11 +13,15 @@ export class SimpleTimestamp extends LitElement {
             cursor: pointer;
             user-select: none;
         }
+
+        .error-text {
+            text-decoration: underline wavy red;
+        }
     `;
 
     static formats  = {
         relative: 0,
-        long: 1,
+        time: 1,
         short: 2
     } as const;
 
@@ -39,32 +48,14 @@ export class SimpleTimestamp extends LitElement {
 
     private formattedDate = (): string => {
         switch (this.currentFormatIndex) {
-            case SimpleTimestamp.formats.long:
-                return new Intl.DateTimeFormat(this.locale, {
-                    timeZone: this.timezone,
-                    hour: 'numeric',
-                    minute: 'numeric',
-                    hour12: true,
-                }).format(this.value);
+            case SimpleTimestamp.formats.time:
+                return formatTime(this.value, this.locale, this.timezone);
     
             case  SimpleTimestamp.formats.short:
-                const currentYear = new Date().getFullYear();
-                const options: Intl.DateTimeFormatOptions = {
-                    timeZone: this.timezone,
-                    day: 'numeric',
-                    month: 'short',
-                    year: this.value.getFullYear() !== currentYear ? '2-digit' : undefined,
-                };
-                
-                return new Intl.DateTimeFormat(this.locale, options).format(this.value);
+                return formatShortDate(this.value, this.locale, this.timezone);
     
             default:
-                const diffInMilliseconds = this.value.getTime() - Date.now();
-                
-                return new Intl.RelativeTimeFormat(this.locale).format(
-                    Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24)),
-                    'day'
-                );
+                return formatRelativeDate(this.value, this.locale);
         }
     };
 
@@ -81,6 +72,12 @@ export class SimpleTimestamp extends LitElement {
     render() {
         const prefix = this.label ? ': ' : '';
 
-        return html`<div>${this.label}${prefix}${this.formattedDate()}</div>`;
+        try {
+            return html`<div>${this.label}${prefix}${this.formattedDate()}</div>`;
+        }
+        catch (error) {
+            // Handle the parse error by displaying the value text content with wavy red underline
+            return html`<div><span class="error-text">${this.value}</span></div>`;
+        }
     }
 }
