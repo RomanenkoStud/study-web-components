@@ -1,6 +1,6 @@
 {
   "name": "@romanenko.pavlo/simple-timestamp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A simple timestamp library for formatting and displaying timestamps.",
   "files": [
     "dist"
@@ -23,10 +23,12 @@
   },
   "author": "RomanenkoStud",
   "license": "ISC",
-  "dependencies": {
-    "lit": "^2.8.0",
+  "devDependencies": {
     "vite": "^4.4.9",
     "vite-plugin-dts": "^3.5.3",
     "vitest": "^0.34.3"
+  },
+  "dependencies": {
+    "lit": "^2.8.0"
   }
 }
