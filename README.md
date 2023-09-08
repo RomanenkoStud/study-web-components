@@ -37,7 +37,7 @@ This monorepo serves as learning project for studying Web Components and Lit Com
     ```
 
 4. To start the demo server:
-    
+
     ```sh
     npm run dev -w demo
     ```
