@@ -40,6 +40,6 @@ export default defineConfig({
         outDir: 'dist',
     },
     plugins: [
-        viteIgnoreStaticImport(["simple-timestamp"]),
+        viteIgnoreStaticImport(["simple-timestamp", "numeric-input"]),
     ],
 });

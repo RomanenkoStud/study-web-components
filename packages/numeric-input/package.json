@@ -1,0 +1,32 @@
+{
+  "name": "@romanenko.pavlo/numeric-input",
+  "version": "1.0.0",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/numeric-input.umd.cjs",
+  "module": "./dist/numeric-input.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/numeric-input.mjs",
+      "require": "./dist/numeric-input.umd.cjs"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "publish-patch": "npm version patch && npm publish --access public"
+  },
+  "author": "RomanenkoStud",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^4.4.9",
+    "vite-plugin-dts": "^3.5.3"
+  },
+  "dependencies": {
+    "lit": "^2.8.0"
+  }
+}

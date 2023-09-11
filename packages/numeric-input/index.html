@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="module" src="/src/index.ts"></script>
+</head>
+<body>
+    <numeric-input 
+        id="usd"
+        lang="en" 
+        format-options='{"style": "currency", "currency": "USD"}'
+    ></numeric-input>
+    <numeric-input 
+        lang="ua" 
+        format-options='{"style": "currency", "currency": "UAH"}'
+        no-spinner
+    ></numeric-input>
+    <date-input></date-input>
+    <date-input id="now"></date-input>
+</body>
+</html>
