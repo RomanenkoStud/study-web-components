@@ -3,6 +3,7 @@ export * from './date-input';
 export * from './utils';
 
 /*
+import {NumericInputElement} from './numeric-input';
 import {DateInputElement} from './date-input';
 import {formatDate} from './utils';
 
@@ -18,5 +19,20 @@ dateInput?.addEventListener('input', (e) => {
 if(dateInput) {
     dateInput.value = new Date();
     console.log('New Date:', formatDate(dateInput.value));
+}
+
+const numericInput: NumericInputElement | null = document.querySelector('numeric-input#usd');
+
+// read valueAsDate from value
+numericInput?.addEventListener('format', (e) => {
+    const inputElement = e.target as HTMLInputElement;
+    console.log('Numeric Value:', inputElement.value);
+});
+
+// write valueAsDate using value
+if(numericInput) {
+    numericInput.value = "22211";
+    console.log('New value raw:', numericInput.raw);
+    console.log('Formated value:', numericInput.value);
 }
 */

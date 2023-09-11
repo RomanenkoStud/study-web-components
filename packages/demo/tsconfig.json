@@ -15,6 +15,6 @@
         "moduleResolution": "node",    // module resolution strategy
         "resolveJsonModule": true      // Allow importing JSON modules
     },
-    "include": ["src/**/*.ts"],
+    "include": ["src/**/*.ts", "src/index.js"],
     "exclude": ["node_modules"]
 }

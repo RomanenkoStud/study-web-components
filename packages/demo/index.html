@@ -9,14 +9,14 @@
         {
             "imports": {
                 "simple-timestamp": "https://unpkg.com/@romanenko.pavlo/simple-timestamp@1.0.3/dist/simple-timestamp.mjs",
-                "numeric-input": "https://unpkg.com/@romanenko.pavlo/numeric-input@1.0.0/dist/numeric-input.mjs"
+                "numeric-input": "https://unpkg.com/@romanenko.pavlo/numeric-input@1.0.1/dist/numeric-input.mjs"
             }
         }
     </script>
-    <script type="module" src="/src/index.ts"></script>
+    <script type="module" src="/src/index.js"></script>
 </head>
-<body class="bg-gray-100">
-    <div class="min-h-screen p-10 w-72 mx-auto flex flex-col gap-3">
+<body class="bg-gray-100 flex">
+    <div class="min-h-screen p-10 w-72 flex flex-col gap-3">
         <h2 class="text-2xl font-bold text-center">Timestamps</h2>
         <div class="bg-white rounded-md shadow-md p-4">
             <h3 class="text-xl font-semibold mb-2">English</h3>
@@ -75,14 +75,13 @@
             </simple-timestamp>
         </div>
     </div>
-    <div class="min-h-screen p-10 w-72 mx-auto flex flex-col gap-3">
+    <div class="min-h-screen p-10 w-72 flex flex-col gap-3">
         <h2 class="text-2xl font-bold text-center">Numeric Inputs</h2>
-        <date-input></date-input>
-        <date-input id="now"></date-input>
         <div class="bg-white rounded-md shadow-md p-4">
             <h3 class="text-xl font-semibold mb-2">Percentage</h3>
             <numeric-input 
                 format-options='{"style": "percent"}'
+                value="0.5"
             >
             </numeric-input>
         </div>
@@ -91,6 +90,7 @@
             <numeric-input 
                 lang="en" 
                 format-options='{"style": "currency", "currency": "USD"}'
+                value="1000.50"
             ></numeric-input>
         </div>
         <div class="bg-white rounded-md shadow-md p-4">
@@ -103,8 +103,26 @@
             <numeric-input 
                 lang="ua" 
                 format-options='{"style": "currency", "currency": "UAH"}'
+                value="540500.50"
                 no-spinner
             ></numeric-input>
+        </div>
+    </div>
+    <div class="min-h-screen p-10 w-72 flex flex-col gap-3">
+        <h2 class="text-2xl font-bold text-center">Date Inputs</h2>
+        <div class="bg-white rounded-md shadow-md p-4">
+            <h3 class="text-xl font-semibold mb-2">Date</h3>
+            <date-input></date-input>
+        </div>
+        <div class="bg-white rounded-md shadow-md p-4">
+            <h3 class="text-xl font-semibold mb-2">
+                Date
+                <span class="text-sm">
+                    (js-controlled)
+                </span>
+            </h3>
+            <date-input id="js-controlled"></date-input>
+            <p class="text-sm" id="input-date"></p>
         </div>
     </div>
 </body>
