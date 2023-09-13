@@ -80,7 +80,7 @@ export class AutocompleteCombobox extends LitElement {
     render() {
         return html`
             <combobox-input
-                .value=${this.selectedValue}
+                .value=${this.filterValue}
                 @combobox-input=${this.onInputChange}
                 @focus=${this.onInputFocus}
                 @blur=${this.onBlur}
