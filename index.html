@@ -11,11 +11,12 @@
         {
             "imports": {
                 "simple-timestamp": "https://unpkg.com/@romanenko.pavlo/simple-timestamp@1.0.3/dist/simple-timestamp.mjs",
-                "numeric-input": "https://unpkg.com/@romanenko.pavlo/numeric-input@1.0.1/dist/numeric-input.mjs"
+                "numeric-input": "https://unpkg.com/@romanenko.pavlo/numeric-input@1.0.1/dist/numeric-input.mjs",
+                "autocomplete-combobox": "https://unpkg.com/@romanenko.pavlo/autocomplete-combobox@1.0.2/dist/autocomplete-combobox.mjs"
             }
         }
     </script>
-  <script type="module" crossorigin src="./assets/index-affeaad4.js"></script>
+  <script type="module" crossorigin src="./assets/index-a15392d1.js"></script>
   <link rel="stylesheet" href="./assets/index-bb189145.css">
 </head>
 <body class="bg-gray-100 flex">
@@ -126,6 +127,32 @@
             </h3>
             <date-input id="js-controlled"></date-input>
             <p class="text-sm" id="input-date"></p>
+        </div>
+    </div>
+    <div class="min-h-screen p-10 w-72 flex flex-col gap-3">
+        <h2 class="text-2xl font-bold text-center">Autocomplete Combobox</h2>
+        <div class="bg-white rounded-md shadow-md p-4">
+            <h3 class="text-xl font-semibold mb-2">
+                Combobox
+            </h3>
+            <autocomplete-combobox id="normal-cb">
+                <option value="apple"></option>
+                <option value="banana"></option>
+                <option value="orange"></option>
+                <option value="watermelon"></option>
+                <option value="raspberry"></option>
+                <option value="lemon"></option>
+            </autocomplete-combobox>
+        </div>
+        <div class="bg-white rounded-md shadow-md p-4">
+            <h3 class="text-xl font-semibold mb-2">
+                Combobox
+                <span class="text-sm">
+                    (js-controlled)
+                </span>
+            </h3>
+            <autocomplete-combobox id="js-controlled-cb">
+            </autocomplete-combobox>
         </div>
     </div>
 </body>
