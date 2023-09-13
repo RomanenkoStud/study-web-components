@@ -2,7 +2,7 @@
 
 ## Description
 
-This monorepo serves as learning project for studying Web Components and Lit Components. It consists of two main workspaces:
+This monorepo serves as learning project for studying Web Components and Lit Components. It consists of four main workspaces:
 
 1. **Simple Timestamp**
 
