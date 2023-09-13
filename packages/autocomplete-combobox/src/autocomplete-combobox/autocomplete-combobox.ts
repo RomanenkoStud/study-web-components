@@ -15,6 +15,7 @@ export class AutocompleteCombobox extends LitElement {
     static styles = styles;
 
     @property({ type: String }) selectedValue = '';
+    @property({ type: Number, attribute: 'max-height' }) maxHeight = 150;
     @state() isFocused: boolean = false;
     @state() filterValue = '';
 
@@ -90,6 +91,7 @@ export class AutocompleteCombobox extends LitElement {
                 .filterValue=${this.filterValue}
                 @option-click=${this.onOptionClick}
                 @blur=${this.onBlur}
+                style="max-height: ${this.maxHeight}px"
             ></options-list>` : null}
             <slot hidden></slot>
         `;

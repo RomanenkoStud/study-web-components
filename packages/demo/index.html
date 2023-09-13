@@ -10,7 +10,7 @@
             "imports": {
                 "simple-timestamp": "https://unpkg.com/@romanenko.pavlo/simple-timestamp@1.0.3/dist/simple-timestamp.mjs",
                 "numeric-input": "https://unpkg.com/@romanenko.pavlo/numeric-input@1.0.1/dist/numeric-input.mjs",
-                "autocomplete-combobox": "https://unpkg.com/@romanenko.pavlo/autocomplete-combobox@1.0.2/dist/autocomplete-combobox.mjs"
+                "autocomplete-combobox": "https://unpkg.com/@romanenko.pavlo/autocomplete-combobox@1.0.3/dist/autocomplete-combobox.mjs"
             }
         }
     </script>
@@ -132,7 +132,10 @@
             <h3 class="text-xl font-semibold mb-2">
                 Combobox
             </h3>
-            <autocomplete-combobox id="normal-cb">
+            <autocomplete-combobox 
+                id="normal-cb"
+                max-height="100"
+            >
                 <option value="apple"></option>
                 <option value="banana"></option>
                 <option value="orange"></option>
