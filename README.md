@@ -6,15 +6,18 @@ This monorepo serves as learning project for studying Web Components and Lit Com
 
 1. **Simple Timestamp**
 
-2. **Autocomplete / Combobox component** [Not Yet Implemented]
+2. **Numeric/Date input components**
 
-3. **Demo**
+3. **Combobox component**
+
+4. **Demo**
 
 ## Workspaces
 
 - [`simple-timestamp`](./packages/simple-timestamp): The timestamp component library workspace.
+- [`autocomplete-combobox`](./packages/autocomplete-combobox): The autocomplete-combobox component library workspace.
+- [`numeric-input`](./packages/numeric-input) The numeric-input component library workspace.
 - [`demo`](./packages/demo): A demo app demonstrating the usage of the custom Web Component.
-- [`autocomplete-combobox`](./packages/autocomplete-combobox): *empty*
 
 ## Installation and Usage
 
@@ -50,4 +53,16 @@ To install simple-timestamp library as seperate package run:
 
 ```sh
 npm i @romanenko.pavlo/simple-timestamp
+```
+
+To install numeric-input as seperate package run:
+
+```sh
+npm i @romanenko.pavlo/numeric-input
+```
+
+To install autocomplete-combobox as seperate package run:
+
+```sh
+npm i @romanenko.pavlo/autocomplete-combobox
 ```

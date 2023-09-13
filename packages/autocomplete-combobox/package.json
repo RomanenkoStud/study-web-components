@@ -1,0 +1,32 @@
+{
+  "name": "@romanenko.pavlo/autocomplete-combobox",
+  "version": "1.0.2",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/autocomplete-combobox.umd.cjs",
+  "module": "./dist/autocomplete-combobox.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/autocomplete-combobox.mjs",
+      "require": "./dist/autocomplete-combobox.umd.cjs"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "publish-patch": "npm run build && npm version patch && npm publish --access public"
+  },
+  "author": "RomanenkoStud",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^4.4.9",
+    "vite-plugin-dts": "^3.5.3"
+  },
+  "dependencies": {
+    "lit": "^2.8.0"
+  }
+}

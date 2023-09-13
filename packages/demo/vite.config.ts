@@ -40,6 +40,6 @@ export default defineConfig({
         outDir: 'dist',
     },
     plugins: [
-        viteIgnoreStaticImport(["simple-timestamp", "numeric-input"]),
+        viteIgnoreStaticImport(["simple-timestamp", "numeric-input", "autocomplete-combobox"]),
     ],
 });
