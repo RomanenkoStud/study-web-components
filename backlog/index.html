@@ -82,18 +82,27 @@
 
     <main class="flex-grow flex justify-center p-8 sm:p-16">
       
-<section class="text-gray-700 py-6">
-  <h2 class="text-2xl mb-4">Description</h2>
-  <p class="mb-4">
-    This monorepo serves as a learning project for studying Web Components and Lit Components. It consists of four main workspaces:
-  </p>
-  <ul class="list-disc ml-6">
-    <li><strong>Simple Timestamp</strong></li>
-    <li><strong>Numeric/Date input components</strong></li>
-    <li><strong>Combobox component</strong></li>
-    <li><strong>Demo</strong></li>
-  </ul>
-</section>
+<div class="container mx-auto">
+  <h2 class="text-2xl font-semibold text-center">Want to get in touch?</h2>
+  <p class="text-center text-gray-600">I'm always open to new opportunities and projects.</p>
+  
+  <form class="max-w-md mx-auto mt-8 p-4 bg-gray-100 shadow-md rounded-lg" name="contact" action="/success" method="POST" data-netlify="true">
+    <div class="mb-4">
+      <label class="block text-gray-800 font-semibold" for="yourName">Name</label>
+      <input class="block w-full py-2 px-3 border border-gray-300 rounded-md" name="name" type="text" id="yourName" required="true">
+    </div>
+    <div class="mb-4">
+      <label class="block text-gray-800 font-semibold" for="yourEmail">Email</label>
+      <input class="block w-full py-2 px-3 border border-gray-300 rounded-md" name="email" type="email" id="yourEmail" required="true">
+    </div>
+    <div class="mb-4">
+      <label class="block text-gray-800 font-semibold" for="message">Message</label>
+      <textarea class="block w-full py-2 px-3 border border-gray-300 rounded-md" name="message" id="message" rows="4" required="true"></textarea>
+    </div>
+    <button class="block w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md" type="submit">Let's talk</button>
+  </form>
+</div>
+
     </main>
   </div>
   <footer class="bg-blue-600 text-white py-4">
