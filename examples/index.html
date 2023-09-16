@@ -226,6 +226,43 @@
         </div>
     </div>
 </div>
+
+<script type="module">
+    const dateInput = document.querySelector('date-input#js-controlled');
+
+    const displayDate = (value) => {
+        const dateMessage = document.querySelector('p#input-date');
+        dateMessage.textContent = `${value}`; 
+    }
+
+    // read valueAsDate from value
+    dateInput?.addEventListener('input', (e) => {
+        const inputElement = e.target;
+        displayDate(inputElement.value);
+    });
+
+    // write valueAsDate using value
+    if(dateInput) {
+        dateInput.value = new Date();
+        displayDate(dateInput.value);
+    }
+
+    // add options using js
+    const combobox = document.querySelector('#js-controlled-cb');
+    const options = ['red', 'green', 'blue']
+
+    if (combobox) {
+        options.forEach((element) => {
+            const option = document.createElement('option');
+            option.value = element;
+            combobox.appendChild(option);
+        })
+
+        setTimeout(() => {
+            console.log(combobox.options)
+        }, 0)
+    }
+</script>
     </main>
   </div>
   <footer class="bg-blue-600 text-white py-4">
