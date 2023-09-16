@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Docs for study web components monorepo."/>
+  <link rel="stylesheet" href="/study-web-components/css/style.css">
+  <title>Eleventy Docs</title>
+</head>
+<body class="flex flex-col min-h-screen">
+  <div class="flex flex-col flex-grow">
+    <header class="flex flex-col justify-between gap-x-5 bg-blue-600 text-white py-4 px-8 sm:px-16 sm:flex-row">
+  <div class="flex justify-between items-center">
+    <h1 class="text-xl font-semibold">
+      <a href="/study-web-components/">Study Web Components</a>
+    </h1>
+    <!-- Hamburger Menu Button -->
+    <button id="menu-toggle" class="sm:hidden block">
+      <!-- Menu Icon -->
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6 menu-icon"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16"
+        />
+      </svg>
+      <!-- Cross Icon (Initially hidden) -->
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6 cross-icon hidden"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+  </div>
+  <!-- Navigation Menu -->
+  <nav id="nav-menu" class="overflow-hidden transition-all duration-1000 ease-in-out max-h-0 sm:max-h-[150px]">
+    <ul class="py-5 sm:py-0 flex flex-col gap-5 sm:flex-row items-center">
+      <li>
+        <a class="hover:underline" href="/study-web-components/start">Getting started</a>
+      </li>
+      <li>
+        <a class="hover:underline" href="/study-web-components/components">Components</a>
+      </li>
+      <li>
+        <a class="hover:underline" href="/study-web-components/examples">Examples</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const menuToggle = document.getElementById("menu-toggle");
+  const navMenu = document.getElementById("nav-menu");
+  const menuIcon = document.querySelector(".menu-icon");
+  const crossIcon = document.querySelector(".cross-icon");
+
+  menuToggle.addEventListener("click", () => {
+    navMenu.classList.toggle("max-h-0");
+    navMenu.classList.toggle("max-h-[150px]");
+    // Toggle visibility of icons
+    menuIcon.classList.toggle("hidden");
+    crossIcon.classList.toggle("hidden");
+  });
+</script>
+
+    <main class="flex-grow flex justify-center p-8 sm:p-16">
+      
+<section class="text-gray-700 py-6">
+  <h2 class="text-2xl mb-4">Description</h2>
+  <p class="mb-4">
+    This monorepo serves as a learning project for studying Web Components and Lit Components. It consists of four main workspaces:
+  </p>
+  <ul class="list-disc ml-6">
+    <li><strong>Simple Timestamp</strong></li>
+    <li><strong>Numeric/Date input components</strong></li>
+    <li><strong>Combobox component</strong></li>
+    <li><strong>Demo</strong></li>
+  </ul>
+</section>
+    </main>
+  </div>
+  <footer class="bg-blue-600 text-white py-4">
+  <div class="container mx-auto text-center">
+    <p>&copy; RomanenkoStud 2023</p>
+  </div>
+</footer>
+</body>
+</html>

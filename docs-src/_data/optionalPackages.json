@@ -1,0 +1,16 @@
+{
+  "packages": [
+    {
+      "name": "simple-timestamp",
+      "path": "@romanenko.pavlo/simple-timestamp"
+    },
+    {
+      "name": "numeric-input",
+      "path": "@romanenko.pavlo/numeric-input"
+    },
+    {
+      "name": "autocomplete-combobox",
+      "path": "@romanenko.pavlo/autocomplete-combobox"
+    }
+  ]
+}

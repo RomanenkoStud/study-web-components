@@ -1,0 +1,256 @@
+{
+  "version": "experimental",
+  "tags": [
+    {
+      "name": "autocomplete-combobox",
+      "path": "./packages\\autocomplete-combobox\\src\\autocomplete-combobox\\autocomplete-combobox.ts",
+      "attributes": [
+        {
+          "name": "selectedValue",
+          "type": "string",
+          "default": "\"\""
+        },
+        {
+          "name": "max-height",
+          "type": "number",
+          "default": "150"
+        },
+        {
+          "name": "options",
+          "type": "string[]"
+        }
+      ],
+      "properties": [
+        {
+          "name": "styles",
+          "type": "CSSResult",
+          "default": "\"styles\""
+        },
+        {
+          "name": "selectedValue",
+          "attribute": "selectedValue",
+          "type": "string",
+          "default": "\"\""
+        },
+        {
+          "name": "maxHeight",
+          "attribute": "max-height",
+          "type": "number",
+          "default": "150"
+        },
+        {
+          "name": "isFocused",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "filterValue",
+          "type": "string",
+          "default": "\"\""
+        },
+        {
+          "name": "options",
+          "attribute": "options",
+          "type": "string[]"
+        }
+      ]
+    },
+    {
+      "name": "combobox-input",
+      "path": "./packages\\autocomplete-combobox\\src\\combobox-input\\combobox-input.ts",
+      "attributes": [
+        {
+          "name": "value",
+          "type": "string",
+          "default": "\"\""
+        }
+      ],
+      "properties": [
+        {
+          "name": "styles",
+          "type": "CSSResult",
+          "default": "\"styles\""
+        },
+        {
+          "name": "value",
+          "attribute": "value",
+          "type": "string",
+          "default": "\"\""
+        }
+      ],
+      "events": [
+        {
+          "name": "combobox-input"
+        }
+      ]
+    },
+    {
+      "name": "options-list",
+      "path": "./packages\\autocomplete-combobox\\src\\options-list\\options-list.ts",
+      "attributes": [
+        {
+          "name": "options",
+          "type": "string[]",
+          "default": "[]"
+        },
+        {
+          "name": "filterValue",
+          "type": "string",
+          "default": "\"\""
+        }
+      ],
+      "properties": [
+        {
+          "name": "styles",
+          "type": "CSSResult",
+          "default": "\"styles\""
+        },
+        {
+          "name": "options",
+          "attribute": "options",
+          "type": "string[]",
+          "default": "[]"
+        },
+        {
+          "name": "filterValue",
+          "attribute": "filterValue",
+          "type": "string",
+          "default": "\"\""
+        }
+      ],
+      "events": [
+        {
+          "name": "option-click"
+        }
+      ]
+    },
+    {
+      "name": "date-input",
+      "path": "./packages\\numeric-input\\src\\date-input\\date-input.ts"
+    },
+    {
+      "name": "numeric-input",
+      "path": "./packages\\numeric-input\\src\\numeric-input\\numeric-input.ts",
+      "attributes": [
+        {
+          "name": "lang",
+          "type": "string",
+          "default": "\"language\""
+        },
+        {
+          "name": "format-options",
+          "type": "NumberFormatOptions | undefined"
+        },
+        {
+          "name": "no-spinner",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "value",
+          "type": "string"
+        }
+      ],
+      "properties": [
+        {
+          "name": "lang",
+          "attribute": "lang",
+          "type": "string",
+          "default": "\"language\""
+        },
+        {
+          "name": "formatOptions",
+          "attribute": "format-options",
+          "type": "NumberFormatOptions | undefined"
+        },
+        {
+          "name": "noSpinner",
+          "attribute": "no-spinner",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "value",
+          "attribute": "value",
+          "type": "string"
+        },
+        {
+          "name": "raw",
+          "type": "string | null"
+        },
+        {
+          "name": "styles",
+          "type": "CSSResult",
+          "default": "\"styles\""
+        }
+      ],
+      "events": [
+        {
+          "name": "format"
+        }
+      ]
+    },
+    {
+      "name": "simple-timestamp",
+      "path": "./packages\\simple-timestamp\\src\\simple-timestamp\\simple-timestamp.ts",
+      "attributes": [
+        {
+          "name": "value",
+          "type": "string",
+          "default": "\"\""
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "default": "\"language\""
+        },
+        {
+          "name": "timezone",
+          "type": "string",
+          "default": "\"timeZone\""
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "\"\""
+        }
+      ],
+      "properties": [
+        {
+          "name": "styles",
+          "type": "CSSResult",
+          "default": "\"css`\\r\\n        :host {\\r\\n            cursor: pointer;\\r\\n            user-select: none;\\r\\n        }\\r\\n\\r\\n        .error-text {\\r\\n            text-decoration: underline wavy red;\\r\\n        }\\r\\n    `\""
+        },
+        {
+          "name": "formats",
+          "type": "{ readonly relative: 0; readonly time: 1; readonly short: 2; }",
+          "default": "{\"relative\":0,\"time\":1,\"short\":2}"
+        },
+        {
+          "name": "value",
+          "attribute": "value",
+          "type": "string",
+          "default": "\"\""
+        },
+        {
+          "name": "locale",
+          "attribute": "locale",
+          "type": "string",
+          "default": "\"language\""
+        },
+        {
+          "name": "timezone",
+          "attribute": "timezone",
+          "type": "string",
+          "default": "\"timeZone\""
+        },
+        {
+          "name": "label",
+          "attribute": "label",
+          "type": "string",
+          "default": "\"\""
+        }
+      ]
+    }
+  ]
+}
