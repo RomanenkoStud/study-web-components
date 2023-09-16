@@ -82,7 +82,150 @@
 
     <main class="flex-grow flex justify-center p-8 sm:p-16">
       
-<p>In process...</p>
+<script type="module" src="https://unpkg.com/@romanenko.pavlo/simple-timestamp@1.0.3/dist/simple-timestamp.umd.js"></script>
+<script type="module" src="https://unpkg.com/@romanenko.pavlo/numeric-input@1.0.1/dist/numeric-input.umd.js"></script>
+<script type="module" src="https://unpkg.com/@romanenko.pavlo/autocomplete-combobox@1.0.4/dist/autocomplete-combobox.umd.js"></script>
+
+<div class="flex flex-wrap justify-center">
+    <div class="p-10 w-72 flex flex-col gap-3">
+        <h2 class="text-2xl font-bold text-center">Timestamps</h2>
+        <div class="bg-white rounded-md shadow-md p-4">
+            <h3 class="text-xl font-semibold mb-2">English</h3>
+            <simple-timestamp
+                id="timestamp-en"
+                class="
+                    block
+                    w-full
+                    text-center 
+                    rounded-md 
+                    border 
+                    bg-gray-200
+                    shadow-md
+                " 
+                locale='en-US' 
+                timezone="America/New_York"
+                value='2023-03-29T12:25:07.427Z'
+            ></simple-timestamp>
+        </div>
+        <div class="bg-white rounded-md shadow-md p-4">
+            <h3 class="text-xl font-semibold mb-2">Ukrainian</h3>
+            <simple-timestamp
+                id="timestamp-uk"
+                class="
+                    block
+                    w-full
+                    text-center 
+                    rounded-md 
+                    border 
+                    bg-gray-200
+                    shadow-md
+                " 
+                locale='uk-UA' 
+                timezone="America/New_York"
+                value='2023-03-19T12:25:07.427Z'
+            >
+            </simple-timestamp>
+        </div>
+        <div class="bg-white rounded-md shadow-md p-4">
+            <h3 class="text-xl font-semibold mb-2">French</h3>
+            <simple-timestamp
+                id="timestamp-fr"
+                class="
+                    block
+                    w-full
+                    text-center 
+                    rounded-md 
+                    border 
+                    bg-gray-200
+                    shadow-md
+                " 
+                locale='fr-FR' 
+                timezone="America/New_York"
+                value='2023-03-19T12:25:07.427Z'
+            >
+            </simple-timestamp>
+        </div>
+    </div>
+    <div class="p-10 w-72 flex flex-col gap-3">
+        <h2 class="text-2xl font-bold text-center">Numeric Inputs</h2>
+        <div class="bg-white rounded-md shadow-md p-4">
+            <h3 class="text-xl font-semibold mb-2">Percentage</h3>
+            <numeric-input 
+                format-options='{"style": "percent"}'
+                value="0.5"
+            >
+            </numeric-input>
+        </div>
+        <div class="bg-white rounded-md shadow-md p-4">
+            <h3 class="text-xl font-semibold mb-2">Currency</h3>
+            <numeric-input 
+                lang="en" 
+                format-options='{"style": "currency", "currency": "USD"}'
+                value="1000.50"
+            ></numeric-input>
+        </div>
+        <div class="bg-white rounded-md shadow-md p-4">
+            <h3 class="text-xl font-semibold mb-2">
+                Currency
+                <span class="text-sm">
+                    --no-spinner
+                </span>
+            </h3>
+            <numeric-input 
+                lang="ua" 
+                format-options='{"style": "currency", "currency": "UAH"}'
+                value="540500.50"
+                no-spinner
+            ></numeric-input>
+        </div>
+    </div>
+    <div class="p-10 w-72 flex flex-col gap-3">
+        <h2 class="text-2xl font-bold text-center">Date Inputs</h2>
+        <div class="bg-white rounded-md shadow-md p-4">
+            <h3 class="text-xl font-semibold mb-2">Date</h3>
+            <date-input></date-input>
+        </div>
+        <div class="bg-white rounded-md shadow-md p-4">
+            <h3 class="text-xl font-semibold mb-2">
+                Date
+                <span class="text-sm">
+                    (js-controlled)
+                </span>
+            </h3>
+            <date-input id="js-controlled"></date-input>
+            <p class="text-sm" id="input-date"></p>
+        </div>
+    </div>
+    <div class="p-10 w-72 flex flex-col gap-3">
+        <h2 class="text-2xl font-bold text-center">Autocomplete Combobox</h2>
+        <div class="bg-white rounded-md shadow-md p-4">
+            <h3 class="text-xl font-semibold mb-2">
+                Combobox
+            </h3>
+            <autocomplete-combobox 
+                id="normal-cb"
+                max-height="100"
+            >
+                <option value="apple"></option>
+                <option value="banana"></option>
+                <option value="orange"></option>
+                <option value="watermelon"></option>
+                <option value="raspberry"></option>
+                <option value="lemon"></option>
+            </autocomplete-combobox>
+        </div>
+        <div class="bg-white rounded-md shadow-md p-4">
+            <h3 class="text-xl font-semibold mb-2">
+                Combobox
+                <span class="text-sm">
+                    (js-controlled)
+                </span>
+            </h3>
+            <autocomplete-combobox id="js-controlled-cb">
+            </autocomplete-combobox>
+        </div>
+    </div>
+</div>
     </main>
   </div>
   <footer class="bg-blue-600 text-white py-4">
