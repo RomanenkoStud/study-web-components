@@ -13,7 +13,8 @@
     "build": "npm run build:11ty && npm run build:css",
     "predeploy": "npx @11ty/eleventy --pathprefix=study-web-components && npm run build:css",
     "deploy": "gh-pages -d docs",
-    "clean": "gh-pages-clean"
+    "clean": "gh-pages-clean",
+    "analyze": "wca analyze packages --format json --outFile custom-elements.json"
   },
   "keywords": [
     "@11ty"
