@@ -7,6 +7,7 @@
   <meta name="description" content="Docs for study web components monorepo."/>
   <link rel="stylesheet" href="/study-web-components/css/style.css">
   <title>Eleventy Docs</title>
+  <style></style>
 </head>
 <body class="flex flex-col min-h-screen">
   <div class="flex flex-col flex-grow">
@@ -16,69 +17,44 @@
       <a href="/study-web-components/">Study Web Components</a>
     </h1>
     <!-- Hamburger Menu Button -->
-    <button id="menu-toggle" class="sm:hidden block">
-      <!-- Menu Icon -->
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-6 w-6 menu-icon"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M4 6h16M4 12h16M4 18h16"
-        />
-      </svg>
-      <!-- Cross Icon (Initially hidden) -->
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-6 w-6 cross-icon hidden"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M6 18L18 6M6 6l12 12"
-        />
-      </svg>
-    </button>
+    <menu-button for-container="menu"><template>
+	<button class="sm:hidden block menu-toggle">
+    <!-- Menu Icon -->
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6 menu-icon">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+    </svg>
+    <!-- Cross Icon (Initially hidden) -->
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6 cross-icon hidden">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+    </svg>
+  </button>
+</template>
+
+</menu-button>
+    
   </div>
   <!-- Navigation Menu -->
-  <nav id="nav-menu" class="overflow-hidden transition-all duration-1000 ease-in-out max-h-0 sm:max-h-[150px]">
-    <ul class="py-5 sm:py-0 flex flex-col gap-5 sm:flex-row items-center">
-      <li>
-        <a class="hover:underline" href="/study-web-components/start">Getting started</a>
-      </li>
-      <li>
-        <a class="hover:underline" href="/study-web-components/components">Components</a>
-      </li>
-      <li>
-        <a class="hover:underline" href="/study-web-components/examples">Examples</a>
-      </li>
-    </ul>
-  </nav>
+  <menu-container id="menu"><template>
+	<nav class="overflow-hidden h-0">
+        
+        <ul class="py-5 sm:py-0 flex flex-col gap-5 sm:flex-row items-center">
+            <li>
+                <a href="{{'/start' | url | safe}}" class="hover:underline">Getting started</a>
+            </li>
+            <li>
+                <a href="{{'/components' | url | safe}}" class="hover:underline">Components</a>
+            </li>
+            <li>
+                <a href="{{'/examples' | url | safe}}" class="hover:underline">Examples</a>
+            </li>
+        </ul>
+    
+    </nav>
+</template>
+
+</menu-container>
+  
 </header>
-
-<script>
-  const menuToggle = document.getElementById("menu-toggle");
-  const navMenu = document.getElementById("nav-menu");
-  const menuIcon = document.querySelector(".menu-icon");
-  const crossIcon = document.querySelector(".cross-icon");
-
-  menuToggle.addEventListener("click", () => {
-    navMenu.classList.toggle("max-h-0");
-    navMenu.classList.toggle("max-h-[150px]");
-    // Toggle visibility of icons
-    menuIcon.classList.toggle("hidden");
-    crossIcon.classList.toggle("hidden");
-  });
-</script>
 
     <main class="flex-grow flex justify-center p-8 sm:p-16">
       
@@ -267,8 +243,39 @@
   </div>
   <footer class="bg-blue-600 text-white py-4">
   <div class="container mx-auto text-center">
-    <p>&copy; RomanenkoStud 2023</p>
+    <p>&copy; Prgamasoft 2023</p>
   </div>
 </footer>
+  <script>window.customElements.define(
+    "menu-button",
+    class extends HTMLElement {
+        connectedCallback() {
+            let tmpl = this.querySelector("template");
+            tmpl.replaceWith(tmpl.content);
+            const button = this.querySelector('.menu-toggle');
+            const menuIcon = this.querySelector('.menu-icon');
+            const crossIcon = this.querySelector('.cross-icon');
+
+            const containerId = this.getAttribute("for-container");
+
+            // Add a click event listener to toggle icons
+            button.addEventListener('click', () => {
+                menuIcon.classList.toggle("hidden");
+                crossIcon.classList.toggle("hidden");
+
+                const nav = document.querySelector(`#${containerId} > nav`);
+                nav.classList.toggle("h-0");
+                nav.classList.toggle("h-full");
+            });
+        }
+});
+window.customElements.define(
+    "menu-container",
+    class extends HTMLElement {
+        connectedCallback() {
+            let tmpl = this.querySelector("template");
+            tmpl.replaceWith(tmpl.content);
+        }
+});</script>
 </body>
 </html>
