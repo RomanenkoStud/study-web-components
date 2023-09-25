@@ -879,6 +879,10 @@ video {
     display: none;
   }
 
+  .sm\:h-full {
+    height: 100%;
+  }
+
   .sm\:flex-row {
     flex-direction: row;
   }
