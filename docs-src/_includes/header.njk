@@ -13,13 +13,13 @@
     <menu-container id="menu">
         <ul class="py-5 sm:py-0 flex flex-col gap-5 sm:flex-row items-center">
             <li>
-                <a class="hover:underline" href="{{'/start' | url | safe}}">Getting started</a>
+                <a class="hover:underline" :href="url('/start/')">Getting started</a>
             </li>
             <li>
-                <a class="hover:underline" href="{{'/components' | url | safe}}">Components</a>
+                <a class="hover:underline" :href="url('/components/')">Components</a>
             </li>
             <li>
-                <a class="hover:underline" href="{{'/examples' | url | safe}}">Examples</a>
+                <a class="hover:underline" :href="url('/examples/')">Examples</a>
             </li>
         </ul>
     </menu-container>
