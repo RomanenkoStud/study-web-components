@@ -7,7 +7,7 @@ export const styles = css`
         font-family: Arial, sans-serif;
     }
 
-    .options {
+    .options-list {
         position: absolute;
         top: 100%;
         left: 0;
@@ -18,6 +18,16 @@ export const styles = css`
         border-top: none;
         overflow-y: auto;
         z-index: 1000;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        max-height: var(--maxHeight);
+        transition: max-height 0.1s ease;
+    }
+
+    .hidden {
+        max-height: 0;
+        overflow: hidden;
     }
 
     ::-webkit-scrollbar {
@@ -35,5 +45,36 @@ export const styles = css`
 
     ::-webkit-scrollbar-thumb:active {
         background-color: #00448c;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input:focus {
+        outline: none;
+        border-color: #007BFF;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        outline: none;
+    }
+
+    .option {
+        background-color: #fff;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        text-align: left;
+    }
+
+    .option:hover, .option.focused {
+        background-color: #c2b9b9;
     }
 `;
