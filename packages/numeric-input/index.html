@@ -9,16 +9,19 @@
 <body>
     <numeric-input 
         id="usd"
-        lang="en" 
-        format-options='{"style": "currency", "currency": "USD"}'
+        lang="en"
     ></numeric-input>
     <numeric-input 
-        lang="ua" 
-        format-options='{"style": "currency", "currency": "UAH"}'
-        value="32333232"
-        no-spinner
+        id="uah"
+        lang="ua"
+        value="32311515"
+        class="no-spinner"
     ></numeric-input>
     <date-input></date-input>
     <date-input id="now"></date-input>
+    <script>
+        document.querySelector('#usd').formatOptions = {"style": "currency", "currency": "USD"};
+        document.querySelector('#uah').formatOptions = {"style": "currency", "currency": "UAH"};
+    </script>
 </body>
 </html>

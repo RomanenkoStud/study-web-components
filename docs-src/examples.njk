@@ -3,9 +3,9 @@ title: "Eleventy Docs"
 layout: "base.njk"
 ---
 
-<script type="module" src="https://unpkg.com/@romanenko.pavlo/simple-timestamp@1.0.3/dist/simple-timestamp.umd.js"></script>
-<script type="module" src="https://unpkg.com/@romanenko.pavlo/numeric-input@1.0.1/dist/numeric-input.umd.js"></script>
-<script type="module" src="https://unpkg.com/@romanenko.pavlo/autocomplete-combobox@1.0.4/dist/autocomplete-combobox.umd.js"></script>
+<script type="module" src="https://unpkg.com/@romanenko.pavlo/simple-timestamp/dist/simple-timestamp.umd.js"></script>
+<script type="module" src="https://unpkg.com/@romanenko.pavlo/numeric-input/dist/numeric-input.umd.js"></script>
+<script type="module" src="https://unpkg.com/@romanenko.pavlo/autocomplete-combobox/dist/autocomplete-combobox.umd.js"></script>
 
 <div class="flex flex-wrap justify-center">
     <div class="p-10 w-72 flex flex-col gap-3">
@@ -72,7 +72,7 @@ layout: "base.njk"
         <div class="bg-white rounded-md shadow-md p-4">
             <h3 class="text-xl font-semibold mb-2">Percentage</h3>
             <numeric-input 
-                format-options='{"style": "percent"}'
+                class="percent"
                 value="0.5"
             >
             </numeric-input>
@@ -80,8 +80,7 @@ layout: "base.njk"
         <div class="bg-white rounded-md shadow-md p-4">
             <h3 class="text-xl font-semibold mb-2">Currency</h3>
             <numeric-input 
-                lang="en" 
-                format-options='{"style": "currency", "currency": "USD"}'
+                lang="en"
                 value="1000.50"
             ></numeric-input>
         </div>
@@ -93,12 +92,22 @@ layout: "base.njk"
                 </span>
             </h3>
             <numeric-input 
-                lang="ua" 
-                format-options='{"style": "currency", "currency": "UAH"}'
+                lang="ua"
                 value="540500.50"
-                no-spinner
+                class="UAH no-spinner"
             ></numeric-input>
         </div>
+        <script>
+            document.querySelectorAll('.percent').forEach((element) => {
+                element.formatOptions = { "style": "percent" };
+            });
+            document.querySelectorAll('.USD').forEach((element) => {
+                element.formatOptions = { "style": "currency", "currency": "USD" };
+            });
+            document.querySelectorAll('.UAH').forEach((element) => {
+                element.formatOptions = { "style": "currency", "currency": "UAH" };
+            });
+        </script>
     </div>
     <div class="p-10 w-72 flex flex-col gap-3">
         <h2 class="text-2xl font-bold text-center">Date Inputs</h2>
@@ -169,18 +178,5 @@ layout: "base.njk"
     }
 
     // add options using js
-    const combobox = document.querySelector('#js-controlled-cb');
-    const options = ['red', 'green', 'blue']
-
-    if (combobox) {
-        options.forEach((element) => {
-            const option = document.createElement('option');
-            option.value = element;
-            combobox.appendChild(option);
-        })
-
-        setTimeout(() => {
-            console.log(combobox.options)
-        }, 0)
-    }
+    document.querySelector('#js-controlled-cb')?.options = ['red', 'green', 'blue'];
 </script>

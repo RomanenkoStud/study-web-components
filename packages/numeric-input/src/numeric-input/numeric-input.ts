@@ -10,27 +10,16 @@ export type NumericInputElement = Omit<HTMLInputElement, 'type' | 'inputmode'> &
 @customElement('numeric-input')
 export class NumericInput extends LitElement {
     @property({ type: String }) lang = navigator.language;
-    @property({ type: Object, attribute: 'format-options' }) formatOptions?: Intl.NumberFormatOptions;
-    @property({ type: Boolean, attribute: 'no-spinner' }) noSpinner = false;
+    @property({ type: Object }) formatOptions?: Intl.NumberFormatOptions;
     private _value: string = '';
-    private _raw: string = '';
 
     @property({ type: String })
     get value(): string {
-        return this._value;
+        return this.format(this._value);
     }
 
     set value(newValue: string) {
-        const formatted = this.format(newValue);
-        if (this._value !== formatted) {
-            this._value = formatted;
-            this._raw = newValue;
-            this.requestUpdate('value');
-        }
-    }
-
-    get raw(): string | null {
-        return this._raw;
+        this._value = newValue;
     }
 
     private get formatter() {
@@ -52,8 +41,8 @@ export class NumericInput extends LitElement {
     private onFocus(e: Event): void {
         const inputElement = e.target as HTMLInputElement;
         if (inputElement.type === 'text') {
-            const old = this._raw || '';
-            this._raw = '';
+            const old = this._value || '';
+            this._value = '';
             inputElement.type = 'number';
             inputElement.value = old;
         }
@@ -63,7 +52,7 @@ export class NumericInput extends LitElement {
         const inputElement = e.target as HTMLInputElement;
         if (inputElement.type === 'number') {
             inputElement.type = 'text';
-            this._raw = inputElement.value;
+            this._value = inputElement.value;
             const rawNumber = Number.parseFloat(inputElement.value);
             if (!isNaN(rawNumber)) {
                 this.value = inputElement.value;
@@ -89,7 +78,6 @@ export class NumericInput extends LitElement {
                 type="text"
                 inputmode="numeric"
                 .value=${this.value}
-                class=${this.noSpinner ? 'no-spinner' : ''}
                 @focus=${this.onFocus}
                 @blur=${this.onBlur}
             />
