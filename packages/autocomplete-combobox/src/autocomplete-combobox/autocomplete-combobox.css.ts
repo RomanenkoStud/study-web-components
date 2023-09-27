@@ -5,29 +5,51 @@ export const styles = css`
         display: inline-block;
         position: relative;
         font-family: Arial, sans-serif;
+        line-height: 1.2; 
+        font-size: 0.8rem
     }
 
-    .options-list {
+    .options {
         position: absolute;
+        width: 100%;
         top: 100%;
         left: 0;
-        width: 100%;
+        max-height: 150px;
+    }
+
+    @supports(anchor-name: --combobox) {
+        [popovertarget] {
+            anchor-name: --combobox;
+        }
+
+        [popover] {
+            anchor-default: --combobox;
+            left: anchor(left);
+            width: anchor-size(width);
+            position-fallback: --flip;
+        }
+
+        @position-fallback --flip {
+            @try {
+                top: anchor(bottom);
+                bottom: auto;
+            }
+            @try {
+                bottom: anchor(top);
+                top: auto;
+            }
+        }
+    }
+
+    .options {
         background-color: #fff;
         border: 1px solid #ccc;
         border-radius: 10px;
         border-top: none;
         overflow-y: auto;
-        z-index: 1000;
         list-style: none;
         padding: 0;
         margin: 0;
-        max-height: var(--maxHeight);
-        transition: max-height 0.1s ease;
-    }
-
-    .hidden {
-        max-height: 0;
-        overflow: hidden;
     }
 
     ::-webkit-scrollbar {
@@ -58,12 +80,6 @@ export const styles = css`
     input:focus {
         outline: none;
         border-color: #007BFF;
-    }
-
-    input {
-        width: 100%;
-        padding: 10px;
-        outline: none;
     }
 
     .option {

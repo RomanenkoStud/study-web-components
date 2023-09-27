@@ -1,7 +1,11 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html, unsafeCSS } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { styles } from './autocomplete-combobox.css';
 import { ComboboxAriaController, ComboboxKeyboardController } from '../controllers';
+import "@oddbird/popover-polyfill";
+
+// @ts-ignore
+import popoverPolyfill from "@oddbird/popover-polyfill/dist/popover.css?inline";
+import { styles } from './autocomplete-combobox.css';
 
 export type AutocompleteComboboxElement = HTMLElement & {
     options: string[];
@@ -10,14 +14,12 @@ export type AutocompleteComboboxElement = HTMLElement & {
 
 @customElement('autocomplete-combobox')
 export class AutocompleteCombobox extends LitElement {
-    static styles = styles;
+    static styles = [unsafeCSS(popoverPolyfill), styles];
 
     protected comboboxController = new ComboboxAriaController(this);
     protected keyboardController = new ComboboxKeyboardController(this);
 
-    @property({ type: String }) selectedValue = '';
-    @property({ type: Number, attribute: 'max-height' }) maxHeight = 150;
-    @state() isFocused: boolean = false;
+    @property({ type: String }) value = '';
     @state() filterValue = '';
 
     private _options: Set<string> = new Set();
@@ -29,6 +31,7 @@ export class AutocompleteCombobox extends LitElement {
             } 
             this._options.add(option);
         })
+        this.requestUpdate("options")
     }
 
     @property({ type: Array })
@@ -37,7 +40,7 @@ export class AutocompleteCombobox extends LitElement {
     }
 
     firstUpdated() {
-        if (this._options.size === 0) {
+        if (this.options.length === 0) {
             const slot = this.shadowRoot?.querySelector('slot');
             slot?.addEventListener('slotchange', () => {
                 const optionElements = slot.assignedNodes().filter((node) =>
@@ -51,7 +54,8 @@ export class AutocompleteCombobox extends LitElement {
     }
 
     onInputFocus(e: FocusEvent) {
-        this.isFocused = true;
+        this.ariaExpanded = "true";
+        this.shadowRoot?.querySelector('ul')?.showPopover();
     }
 
     onInput(e: Event) {
@@ -62,31 +66,29 @@ export class AutocompleteCombobox extends LitElement {
     }
 
     onOptionClick(value: string) {
-        this.selectedValue = value;
+        this.value = value;
         this.filterValue = value;
-        this.isFocused = false;
+        this.ariaExpanded = "false";
+        this.shadowRoot?.querySelector('ul')?.hidePopover();
     }
 
-    onBackgroundPointerUp(event) {
-        if (!this.isEqualNode(event.target)) {
-            this.isFocused = false;
+    onBackgroundPointerUp(event: Event) {
+        if (!this.isEqualNode(event.target as HTMLElement)) {
+            this.ariaExpanded = "false";
+            this.shadowRoot?.querySelector('ul')?.hidePopover();
         }
     }
 
     render() {
         return html`
             <input
-                ariaHasPopup
                 type="text"
-                class="combobox"
                 .value=${this.filterValue}
                 @input=${this.onInput}
                 @focus=${this.onInputFocus}
+                popovertarget=options
             />
-            <ul 
-                class="options-list ${this.isFocused ? '' : 'hidden'}"
-                style="--maxHeight: ${this.maxHeight}px"
-            >
+            <ul popover="manual" class="options" id=options>
                 ${this.options
                     .filter((value) =>
                         value

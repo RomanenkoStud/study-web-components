@@ -11,17 +11,11 @@ export class ComboboxAriaController {
         this.host.setAttribute('aria-haspopup', 'listbox');
     }
 
-    hostUpdated() { 
-        this.activeElementIndex = -1;
-        
-        this.host.shadowRoot
-            .querySelector('input[type="text"]')
-            .setAttribute('aria-expanded', this.host.isFocused.toString());
-
-        if(this.host.isFocused) {
+    hostUpdated() {
+        if(this.host.ariaExpanded === "true") {
             this.host.shadowRoot
-            .querySelector('ul')
-            .setAttribute('role', 'listbox');
+                ?.querySelector('ul')
+                ?.setAttribute('role', 'listbox');
         }
     }
 }
