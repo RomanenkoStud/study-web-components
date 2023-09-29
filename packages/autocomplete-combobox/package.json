@@ -29,6 +29,7 @@
   "dependencies": {
     "@oddbird/popover-polyfill": "^0.2.3",
     "@webcomponents/webcomponentsjs": "^2.8.0",
+    "element.scrollintoviewifneeded-polyfill": "^1.0.1",
     "lit": "^2.8.0"
   }
 }

@@ -1,9 +1,15 @@
 import { ReactiveControllerHost } from 'lit';
+import { AutocompleteCombobox } from '../autocomplete-combobox/autocomplete-combobox';
+
+interface OptionElement extends HTMLElement {
+    // element.scrollintoviewifneeded-polyfill
+    scrollIntoViewIfNeeded: () => void;
+}
 
 export class ComboboxKeyboardController {
     private activeElementIndex = -1;
 
-    constructor(private host: ReactiveControllerHost & HTMLElement) {
+    constructor(private host: ReactiveControllerHost & AutocompleteCombobox) {
         this.host.addController(this);
     }
 
@@ -13,20 +19,29 @@ export class ComboboxKeyboardController {
 
     hostUpdated() { 
         this.activeElementIndex = -1;
+
+        const optionElements = this.host.shadowRoot
+            ?.querySelectorAll('[role="option"]') as NodeListOf<OptionElement>;
+        this.updateVisualFocus(optionElements);
     }
 
     private handleKeyDown(event: KeyboardEvent) {
         const popover = this.host.shadowRoot
-            ?.querySelector('[popover]') as HTMLElement;
+            ?.querySelector('[role="listbox"]') as HTMLElement;
         const optionElements = this.host.shadowRoot
-            ?.querySelectorAll('[popover] > *') as NodeListOf<HTMLElement>;
+            ?.querySelectorAll('[role="option"]') as NodeListOf<OptionElement>;
 
         if (!optionElements || !popover) {
-            return
+            return;
         }
 
         switch (event.key) {
             case 'Tab':
+                if (this.host.ariaExpanded === 'true') {
+                    event.preventDefault();
+                    this.shiftFocus(1, optionElements);
+                }
+                break;
             case 'ArrowDown':
                 event.preventDefault();
                 if (event.altKey) {
@@ -41,7 +56,7 @@ export class ComboboxKeyboardController {
                 break;
             case 'Enter':
                 event.preventDefault();
-                if (this.activeElementIndex > 0) {
+                if (this.activeElementIndex > -1) {
                     this.selectOption(optionElements[this.activeElementIndex]);
                     this.host.ariaExpanded = "false";
                     popover.hidePopover();
@@ -67,30 +82,40 @@ export class ComboboxKeyboardController {
         this.updateVisualFocus(optionElements);
     }
 
-    private shiftFocus(shift: number, optionElements: NodeListOf<HTMLElement>): void {
-        const newIndex = this.activeElementIndex < 0 && shift < 0 
+    private shiftFocus(shift: number, optionElements: NodeListOf<OptionElement>): void {
+        if (!Array.from(optionElements).find(element => !element.hasAttribute('disabled'))) {
+            return;
+        }
+
+        let newIndex = this.activeElementIndex < 0 && shift < 0 
             ? optionElements.length - 1
             : (this.activeElementIndex + shift + optionElements.length) % optionElements.length;
+
+        while (optionElements[newIndex].hasAttribute('disabled')) {
+            newIndex = (newIndex + shift) % optionElements.length;
+        }
 
         this.setFocus(newIndex, optionElements);
     }
 
-    private setFocus(index: number, optionElements: NodeListOf<HTMLElement>): void {
+    private setFocus(index: number, optionElements: NodeListOf<OptionElement>): void {
         this.activeElementIndex = index;
 
         this.updateVisualFocus(optionElements);
     }
 
-    private updateVisualFocus(optionElements: NodeListOf<HTMLElement>) {
+    private updateVisualFocus(optionElements: NodeListOf<OptionElement>) {
         optionElements.forEach((element, index) => {
-            element.classList.toggle('focused', index === this.activeElementIndex);
-            index === this.activeElementIndex && element.scrollIntoView(false);
+            if (index === this.activeElementIndex) {
+                element.setAttribute('part', 'option option-focused');
+                element.scrollIntoViewIfNeeded();
+            } else {
+                element.setAttribute('part', 'option');
+            }
         });
     }
 
     private selectOption(option: HTMLElement) {
-        const selectedValue = option.textContent || '';
-        this.host.value = selectedValue;
-        this.host.filterValue = selectedValue;
+        this.host.value = option.id;
     }
 }

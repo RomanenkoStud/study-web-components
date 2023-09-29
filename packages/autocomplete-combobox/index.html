@@ -7,15 +7,94 @@
     <script type="module" src="/src/index.ts"></script>
 </head>
 <body>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            /* Dark mode styles */
+            html {
+                background-color: #272727;
+                color: #fff;
+            }
+        }
+        autocomplete-combobox {
+            width: 250px;
+        }
+        autocomplete-combobox::part(combobox) {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        autocomplete-combobox::part(combobox):focus {
+            outline: none;
+            border-color: #007BFF;
+        }
+        autocomplete-combobox::part(combobox) {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        autocomplete-combobox::part(listbox) {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+
+            --scrollbar-track-color: #fff;
+            --scrollbar-thumb-color: #007BFF;
+            --scrollbar-thumb-radius: 5px;
+            --scrollbar-width: 10px;
+        }
+        autocomplete-combobox::part(option) {
+            padding: 10px;
+        }
+        autocomplete-combobox::part(option):hover {
+            background-color: #ff6f6f;
+        }
+        autocomplete-combobox::part(option-focused) {
+            background-color: #e4a4a4;
+        }
+        :root {
+            min-height: 100%;
+            position: relative;
+        }
+        autocomplete-combobox#bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
     <autocomplete-combobox id="normal-cb">
-        <option value="apple"></option>
-        <option value="banana"></option>
-        <option value="orange"></option>
-        <option value="watermelon"></option>
-        <option value="raspberry"></option>
-        <option value="lemon"></option>
+        <option value="apple" label="Apple"></option>
+        <option value="banana" label="Banana" disabled></option>
+        <option value="orange" label="Orange"></option>
+        <option value="watermelon" label="Watermelon"></option>
+        <option value="raspberry" label="Raspberry" disabled></option>
+        <option value="lemon" label="Lemon"></option>
+    </autocomplete-combobox>
+    <autocomplete-combobox disabled>
+        <option value="apple" label="Apple" selected></option>
+        <option value="banana" label="Banana" disabled></option>
+        <option value="orange" label="Orange"></option>
+        <option value="watermelon" label="Watermelon"></option>
+        <option value="raspberry" label="Raspberry" disabled></option>
+        <option value="lemon" label="Lemon"></option>
+    </autocomplete-combobox>
+    <autocomplete-combobox>
+        <option value="apple" label="Apple"></option>
+        <option value="banana" label="Banana" disabled></option>
+        <option value="orange" label="Orange"></option>
+        <option value="watermelon" label="Watermelon"></option>
+        <option value="raspberry" label="Raspberry" disabled></option>
+        <option value="lemon" label="Lemon"></option>
     </autocomplete-combobox>
     <autocomplete-combobox id="js-controlled-cb">
+    </autocomplete-combobox>
+    <autocomplete-combobox id="bottom" placeholder="Smart dropdown">
+        <option value="apple" label="Apple"></option>
+        <option value="banana" label="Banana" disabled></option>
+        <option value="orange" label="Orange"></option>
+        <option value="watermelon" label="Watermelon"></option>
+        <option value="raspberry" label="Raspberry" disabled></option>
+        <option value="lemon" label="Lemon"></option>
     </autocomplete-combobox>
     <p>
         Lorem ipsum dolor sit amet consectetur, 
@@ -25,7 +104,12 @@
         laboriosam temporibus.
     </p>
     <script>
-        document.querySelector('#js-controlled-cb').options = ['red', 'green', 'blue'];
+        document.querySelector('#js-controlled-cb').options = [
+            {label: 'Red', value: 'red'},
+            {label: 'Green', value: 'green'},
+            {label: 'Blue', value: 'blue'},
+            {label: 'Blue', value: 'blue'},
+        ];
     </script>
 </body>
 </html>
