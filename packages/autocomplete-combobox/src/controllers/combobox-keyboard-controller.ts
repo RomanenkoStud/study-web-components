@@ -25,6 +25,10 @@ export class ComboboxKeyboardController {
         this.updateVisualFocus(optionElements);
     }
 
+    hostDisconnected() {
+        this.host.removeEventListener('keydown', this.handleKeyDown.bind(this));
+    }
+
     private handleKeyDown(event: KeyboardEvent) {
         const popover = this.host.shadowRoot
             ?.querySelector('[role="listbox"]') as HTMLElement;

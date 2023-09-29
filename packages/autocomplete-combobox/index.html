@@ -96,12 +96,49 @@
         <option value="raspberry" label="Raspberry" disabled></option>
         <option value="lemon" label="Lemon"></option>
     </autocomplete-combobox>
+    <form>
+        <autocomplete-combobox required name="fruits">
+            <option value="apple" label="Apple"></option>
+            <option value="banana" label="Banana" disabled></option>
+            <option value="orange" label="Orange"></option>
+            <option value="watermelon" label="Watermelon"></option>
+            <option value="raspberry" label="Raspberry" disabled></option>
+            <option value="lemon" label="Lemon"></option>
+        </autocomplete-combobox>
+        <button type="submit">Submit</button>
+    </form>
     <p>
-        Lorem ipsum dolor sit amet consectetur, 
-        adipisicing elit. Dolorum facere aliquam corporis illo 
-        officiis error impedit blanditiis, nesciunt atque mollitia 
-        tenetur, aperiam eveniet quidem voluptas ea placeat ducimus 
-        laboriosam temporibus.
+        Tab Key: If the combobox dropdown is open (ariaExpanded is 'true'), 
+        pressing the Tab key allows you to navigate options.
+        Else it will move focus to the next focusable element outside the combobox.
+    </p>
+    <p>
+        Arrow Down + Alt Key: Opens the combobox dropdown (ariaExpanded becomes 'true') if it's not already open.
+    </p>
+    <p>
+        Arrow Down Key: Pressing the Arrow Down key will move focus down the list of options. 
+        Use this key to navigate through the options.
+    </p>
+    <p>
+        Arrow Up Key: The Arrow Up key is used to move focus up the list of options. 
+        Use this key to navigate upward through the options.
+    </p>
+    <p>
+        Enter Key: When an option is in focus, 
+        pressing the Enter key will select that option and close the combobox dropdown. 
+        The selected option's value will be displayed in the combobox input.
+    </p>
+    <p>
+        Escape Key: Pressing the Escape key will close the combobox dropdown if it's open (ariaExpanded becomes 'false'). 
+        This key can be used to cancel the selection.
+    </p>
+    <p>
+        Home Key: The Home key is used to quickly navigate to the first option in the list. 
+        It will move focus to the first option.
+    </p>
+    <p>
+        End Key: The End key is used to quickly navigate to the last option in the list. 
+        It will move focus to the last option.
     </p>
     <script>
         document.querySelector('#js-controlled-cb').options = [
