@@ -1,10 +1,10 @@
 import { ReactiveControllerHost } from 'lit';
-import { AutocompleteCombobox } from '../autocomplete-combobox/autocomplete-combobox';
+import { ComboboxInterface } from '../mixins';
 
 export class ComboboxKeyboardController {
     private activeElementIndex = -1;
 
-    constructor(private host: ReactiveControllerHost & AutocompleteCombobox) {
+    constructor(private host: ReactiveControllerHost & HTMLElement & ComboboxInterface) {
         this.host.addController(this);
     }
 

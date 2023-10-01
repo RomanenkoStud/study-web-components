@@ -15,6 +15,7 @@ export const styles = css`
         --scrollbar-width: 10px;
         --listbox-border: #333;
         --option-background: #fff;
+        --input-background: #fff;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -25,7 +26,16 @@ export const styles = css`
             --option-background: #444;
             --text-color: #fff;
             --listbox-border: #fff;
+            --input-background: #444;
         }
+    }
+
+    [part="combobox"] {
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        background-color: var(--input-background);
+        color: var(--text-color);
     }
 
     [popover] {
