@@ -18,12 +18,12 @@
         autocomplete-combobox {
             width: 250px;
         }
-        autocomplete-combobox::part(combobox) {
+        autocomplete-combobox::part(input) {
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-        autocomplete-combobox::part(combobox):focus {
+        autocomplete-combobox::part(input):focus {
             outline: none;
             border-color: #007BFF;
         }
@@ -55,11 +55,11 @@
             bottom: 0;
             left: 0;
         }
-        autocomplete-combobox:invalid#formCombobox::part(combobox),
+        autocomplete-combobox:invalid#formCombobox::part(input),
         autocomplete-combobox:invalid#formCombobox::part(listbox) {
             border: 1px solid red;
         }
-        autocomplete-combobox:valid#formCombobox::part(combobox),
+        autocomplete-combobox:valid#formCombobox::part(input),
         autocomplete-combobox:valid#formCombobox::part(listbox) {
             border: 1px solid green;
         }
@@ -84,7 +84,7 @@
     </autocomplete-combobox>
     <autocomplete-combobox id="customData" src="./customOptions.json">
     </autocomplete-combobox>
-    <autocomplete-combobox id="js-controlled-cb" title="Smart dropdown">
+    <autocomplete-combobox id="js-controlled-cb" title="JS controlled">
     </autocomplete-combobox>
     <autocomplete-combobox id="bottom" placeholder="Smart dropdown">
         <option value="apple" label="Apple"></option>
@@ -95,6 +95,7 @@
         <option value="lemon" label="Lemon"></option>
     </autocomplete-combobox>
     <form id="myForm">
+        <input name="red"/>
         <autocomplete-combobox required name="fruits" id="formCombobox">
             <option value="apple" label="Apple" title="Apple"></option>
             <option value="banana" label="Banana" disabled title="Banana"></option>

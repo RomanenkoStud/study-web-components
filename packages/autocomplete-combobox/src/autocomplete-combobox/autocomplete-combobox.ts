@@ -19,7 +19,7 @@ export class AutocompleteCombobox extends SrcDataMixin(ComboboxMixin(LitElement)
 
     onInput() {
         super.onInput();
-        this.filterValue = this.comboboxElement.value;
+        this.filterValue = this.inputElement.value;
         this.debounceInput();
         this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
     }

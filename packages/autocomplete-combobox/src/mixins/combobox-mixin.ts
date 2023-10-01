@@ -19,7 +19,7 @@ export declare class ComboboxInterface {
     required: boolean;
     placeholder: string;
     value: string;
-    comboboxElement: HTMLInputElement;
+    inputElement: HTMLInputElement;
     listboxElement: HTMLElement;
     optionElements: NodeListOf<OptionElement>;
     options: Option[];
@@ -46,7 +46,7 @@ export const ComboboxMixin = <T extends Constructor<LitElement>>(
             styles,
         ];
 
-        @query('input') comboboxElement!: HTMLInputElement;
+        @query('input') inputElement!: HTMLInputElement;
         @query('slot') slotElement!: HTMLSlotElement;
         @query('ul') listboxElement!: HTMLElement;
         @queryAll('li') optionElements!: NodeListOf<OptionElement>;
@@ -76,7 +76,7 @@ export const ComboboxMixin = <T extends Constructor<LitElement>>(
                 console.warn(`Option with value "${newValue}" does not exist.`);
             }
 
-            this.comboboxElement.value = option.label;
+            this.inputElement.value = option.label;
         }
 
         get value() {
@@ -164,7 +164,7 @@ export const ComboboxMixin = <T extends Constructor<LitElement>>(
         }
 
         focusInput() {
-            this.comboboxElement.focus(); 
+            this.inputElement.focus(); 
             this.tabIndex = -1;
         }
 
@@ -196,7 +196,7 @@ export const ComboboxMixin = <T extends Constructor<LitElement>>(
 
         updated(): void {
             this._internals.setValidity({ 
-                valueMissing: this.required && this.comboboxElement.value.trim() === '',
+                valueMissing: this.required && this.inputElement.value.trim() === '',
             }, 'Invalid input.');
         }
 
@@ -239,7 +239,7 @@ export const ComboboxMixin = <T extends Constructor<LitElement>>(
         render() {
             return html`
                 <input
-                    part="combobox"
+                    part="input"
                     type="text"
                     @input=${this.onInput}
                     @focus=${this.onFocus}
