@@ -1,10 +1,10 @@
 import { ReactiveControllerHost } from 'lit';
-import { ComboboxInterface } from '../mixins';
+import { ComboboxElement } from '../combobox';
 
 export class ComboboxKeyboardController {
     private activeElementIndex = -1;
 
-    constructor(private host: ReactiveControllerHost & HTMLElement & ComboboxInterface) {
+    constructor(private host: ReactiveControllerHost & ComboboxElement) {
         this.host.addController(this);
     }
 

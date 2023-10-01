@@ -1,11 +1,12 @@
-import { LitElement, html } from 'lit';
+import { html } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { ComboboxKeyboardController } from '../controllers';
-import { ComboboxMixin, SrcDataMixin } from '../mixins';
+import { ComboboxElement } from '../combobox';
+import { SrcDataMixin } from '../mixins';
 import { Option } from '../types';
 
 @customElement('autocomplete-combobox')
-export class AutocompleteCombobox extends SrcDataMixin(ComboboxMixin(LitElement)) {
+export class AutocompleteCombobox extends SrcDataMixin(ComboboxElement) {
     protected keyboardController = new ComboboxKeyboardController(this);
 
     @state() filterValue = '';
