@@ -99,7 +99,7 @@ export const styles = css`
         background-color: color-mix(in srgb, var(--option-background) 50%, black);
     }
     
-    [part="option-focused"] {
+    [part="option option-focused"] {
         background-color: color-mix(in srgb, var(--option-background) 50%, black);
     }
 
