@@ -1,11 +1,6 @@
 import { ReactiveControllerHost } from 'lit';
 import { AutocompleteCombobox } from '../autocomplete-combobox/autocomplete-combobox';
 
-interface OptionElement extends HTMLElement {
-    // element.scrollintoviewifneeded-polyfill
-    scrollIntoViewIfNeeded: () => void;
-}
-
 export class ComboboxKeyboardController {
     private activeElementIndex = -1;
 
@@ -20,9 +15,7 @@ export class ComboboxKeyboardController {
     hostUpdated() { 
         this.activeElementIndex = -1;
 
-        const optionElements = this.host.shadowRoot
-            ?.querySelectorAll('[role="option"]') as NodeListOf<OptionElement>;
-        this.updateVisualFocus(optionElements);
+        this.updateVisualFocus();
     }
 
     hostDisconnected() {
@@ -30,63 +23,54 @@ export class ComboboxKeyboardController {
     }
 
     private handleKeyDown(event: KeyboardEvent) {
-        const popover = this.host.shadowRoot
-            ?.querySelector('[role="listbox"]') as HTMLElement;
-        const optionElements = this.host.shadowRoot
-            ?.querySelectorAll('[role="option"]') as NodeListOf<OptionElement>;
-
-        if (!optionElements || !popover) {
-            return;
-        }
-
         switch (event.key) {
             case 'Tab':
                 if (this.host.ariaExpanded === 'true') {
                     event.preventDefault();
-                    this.shiftFocus(1, optionElements);
+                    this.shiftFocus(1);
                 }
                 break;
             case 'ArrowDown':
                 event.preventDefault();
                 if (event.altKey) {
-                    this.host.ariaExpanded = "true";
-                    popover.showPopover();
+                    this.host.showOptions();
                 }
-                this.shiftFocus(1, optionElements);
+                this.shiftFocus(1);
                 break;
             case 'ArrowUp':
                 event.preventDefault();
-                this.shiftFocus(-1, optionElements);
+                this.shiftFocus(-1);
                 break;
             case 'Enter':
                 event.preventDefault();
                 if (this.activeElementIndex > -1) {
-                    this.selectOption(optionElements[this.activeElementIndex]);
-                    this.host.ariaExpanded = "false";
-                    popover.hidePopover();
+                    const activeElement = this.host.optionElements[this.activeElementIndex];
+                    this.host.value = activeElement.id;
+                    this.host.hideOptions();
                 }
                 break;
             case 'Escape':
                 event.preventDefault();
-                this.host.ariaExpanded = "false";
-                popover.hidePopover();
+                this.host.hideOptions();
                 break;
             case 'Home':
                 event.preventDefault();
-                this.setFocus(0, optionElements);
+                this.setFocus(0);
                 break;
             case 'End':
                 event.preventDefault();
-                this.setFocus(optionElements.length - 1, optionElements);
+                this.setFocus(this.host.optionElements.length - 1);
                 break;
             default:
                 break;
         }
 
-        this.updateVisualFocus(optionElements);
+        this.updateVisualFocus();
     }
 
-    private shiftFocus(shift: number, optionElements: NodeListOf<OptionElement>): void {
+    private shiftFocus(shift: number): void {
+        const optionElements = this.host.optionElements;
+
         if (!Array.from(optionElements).find(element => !element.hasAttribute('disabled'))) {
             return;
         }
@@ -99,17 +83,17 @@ export class ComboboxKeyboardController {
             newIndex = (newIndex + shift) % optionElements.length;
         }
 
-        this.setFocus(newIndex, optionElements);
+        this.setFocus(newIndex);
     }
 
-    private setFocus(index: number, optionElements: NodeListOf<OptionElement>): void {
+    private setFocus(index: number): void {
         this.activeElementIndex = index;
 
-        this.updateVisualFocus(optionElements);
+        this.updateVisualFocus();
     }
 
-    private updateVisualFocus(optionElements: NodeListOf<OptionElement>) {
-        optionElements.forEach((element, index) => {
+    private updateVisualFocus() {
+        this.host.optionElements.forEach((element, index) => {
             if (index === this.activeElementIndex) {
                 element.setAttribute('part', 'option option-focused');
                 element.scrollIntoViewIfNeeded();
@@ -117,9 +101,5 @@ export class ComboboxKeyboardController {
                 element.setAttribute('part', 'option');
             }
         });
-    }
-
-    private selectOption(option: HTMLElement) {
-        this.host.value = option.id;
     }
 }

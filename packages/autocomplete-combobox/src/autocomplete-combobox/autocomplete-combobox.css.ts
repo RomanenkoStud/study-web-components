@@ -59,7 +59,7 @@ export const styles = css`
         }
     }
 
-    [role="listbox"] {
+    [part="listbox"] {
         box-sizing: border-box;
         overflow-y: auto;
         list-style: none;
@@ -89,37 +89,37 @@ export const styles = css`
         background-color: var(--scrollbar-thumb-color);
     }
 
-    [role="option"] {
+    [part="option"] {
         background-color: var(--option-background);
         color: var(--text-color);
         cursor: pointer;
     }
 
-    [role="option"]:hover {
+    [part="option"]:hover {
         background-color: color-mix(in srgb, var(--option-background) 50%, black);
     }
     
-    [role="option"][part="option-focused"] {
+    [part="option-focused"] {
         background-color: color-mix(in srgb, var(--option-background) 50%, black);
     }
 
-    [role="option"][disabled],
-    [role="option"][disabled]:hover {
+    [part="option"][disabled],
+    [part="option"][disabled]:hover {
         background-color: color-mix(in srgb, var(--option-background) 75%, black) !important;
         cursor: default
     }
 
     @media (prefers-color-scheme: dark) {
-        [role="option"]:hover {
+        [part="option"]:hover {
             background-color: color-mix(in srgb, var(--option-background) 50%, white);
             cursor: pointer;
         }
         
-        [role="option"][part="option-focused"] {
+        [part="option-focused"] {
             background-color: color-mix(in srgb, var(--option-background) 50%, white);
         }
 
-        [role="option"][disabled] {
+        [part="option"][disabled] {
             background-color: color-mix(in srgb, var(--option-background) 75%, white);
             cursor: default;
         }

@@ -1,34 +1,34 @@
 import { LitElement, html, unsafeCSS } from 'lit';
-import { customElement, property, state, query } from 'lit/decorators.js';
+import { customElement, property, state, query, queryAll } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { ComboboxKeyboardController } from '../controllers';
-import { ComboboxMixin } from '../mixins';
+import { ComboboxMixin, SrcOptionsMixin } from '../mixins';
 import "@oddbird/popover-polyfill";
 
 // @ts-ignore
 import popoverPolyfill from "@oddbird/popover-polyfill/dist/popover.css?inline";
 import { styles } from './autocomplete-combobox.css';
 
-export type Option = {
-    value: string; 
-    label: string;
-    disabled?: boolean;
-}
+export interface OptionElement extends HTMLElement {
+    // element.scrollintoviewifneeded-polyfill
+    scrollIntoViewIfNeeded: () => void;
+};
 
 @customElement('autocomplete-combobox')
-export class AutocompleteCombobox extends ComboboxMixin(LitElement) {
+export class AutocompleteCombobox extends SrcOptionsMixin(ComboboxMixin(LitElement)) {
     static styles = [
-        ...[super.styles || []], 
+        ...[super.styles ?? []], 
         unsafeCSS(popoverPolyfill), 
         styles
     ];
 
     protected keyboardController = new ComboboxKeyboardController(this);
 
-    @query('slot') private slotElement!: HTMLSlotElement;
-    @query('[popover]') private popoverElement!: HTMLElement;
+    @query('slot') slotElement!: HTMLSlotElement;
+    @query('ul') listboxElement!: HTMLElement;
+    @queryAll('li') optionElements!: NodeListOf<OptionElement>;
 
     private _value = '';
-    private _options: Record<string, Option> = {};
 
     @state() filterValue = '';
 
@@ -40,7 +40,7 @@ export class AutocompleteCombobox extends ComboboxMixin(LitElement) {
             return;
         }
 
-        const option = this._options[newValue];
+        const option = this.getOption(newValue);
         if (option) {
             this.filterValue = option.label;
             this._value = newValue;
@@ -56,24 +56,6 @@ export class AutocompleteCombobox extends ComboboxMixin(LitElement) {
         return this._value;
     }
 
-    @property({ type: Array })
-    set options(newOptions: Option[]) {
-        this._options = newOptions.reduce((acc, option) => {
-            if (acc.hasOwnProperty(option.value)) {
-                console.warn(`Option with value "${option.value}" already exists.`);
-            } else {
-                acc[option.value] = option;
-            }
-            return acc;
-        }, {} as Record<string, Option>);
-    
-        this.requestUpdate("options");
-    }
-
-    get options() {
-        return Object.values(this._options);
-    }
-
     firstUpdated() {
         if (this.options.length === 0) {
             this.slotElement.addEventListener('slotchange', () => {
@@ -81,10 +63,10 @@ export class AutocompleteCombobox extends ComboboxMixin(LitElement) {
                     node instanceof HTMLOptionElement
                 ) as HTMLOptionElement[];
     
-                this.options = optionElements.map((element) => ({
-                    value: element.value,
-                    label: element.label,
-                    disabled: element.disabled,
+                this.options = optionElements.map(({
+                    label, value, disabled, title
+                }) => ({
+                    label, value, disabled, title
                 }));
 
                 const selectedOption = optionElements.find((element) => element.selected);
@@ -95,15 +77,23 @@ export class AutocompleteCombobox extends ComboboxMixin(LitElement) {
         }
     }
 
-    onFocus(e: FocusEvent) {
+    showOptions() {
         this.ariaExpanded = "true";
-        this.popoverElement.showPopover();
+        this.listboxElement.showPopover();
+    }
+
+    hideOptions() {
+        this.ariaExpanded = "false";
+        this.listboxElement.hidePopover();
+    }
+
+    onFocus(e: FocusEvent) {
+        this.showOptions();
         this.dispatchEvent(new Event('focus', { bubbles: true, composed: true }));
     }
 
     onBlur(e: FocusEvent) {
-        this.ariaExpanded = "false";
-        this.popoverElement.hidePopover();
+        this.hideOptions();
         this.dispatchEvent(new Event('focus', { bubbles: true, composed: true }));
         this.requestUpdate("ariaExpanded");
     }
@@ -111,14 +101,21 @@ export class AutocompleteCombobox extends ComboboxMixin(LitElement) {
     onInput(e: Event) {
         const inputElement = e.target as HTMLInputElement;
         this.filterValue = inputElement.value;
+        this.debounceInput();
         this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
     }
 
     onOptionClick(value: string) {
-        const option = this._options[value];
+        const option = this.getOption(value);
         if (option && !option.disabled) {
             this.value = value;
         }
+    }
+
+    constructor() {
+        super();
+        this.ariaAutoComplete = "list";
+        this.ariaHasPopup = "listbox";
     }
 
     render() {
@@ -127,7 +124,6 @@ export class AutocompleteCombobox extends ComboboxMixin(LitElement) {
             <ul 
                 popover="manual"
                 id="options"
-                role="listbox"
                 part="listbox"
             >
                 ${this.options
@@ -136,18 +132,24 @@ export class AutocompleteCombobox extends ComboboxMixin(LitElement) {
                             .toLowerCase()
                             .includes(this.filterValue.toLowerCase())
                     )
-                    .map(({label, value, disabled}) => 
+                    .map(({
+                        label, 
+                        value, 
+                        disabled, 
+                        htmlElement, 
+                        title
+                    }) => 
                         html`
                             <li
                                 part="option"
-                                role="option"
                                 id=${value}
                                 ?disabled=${disabled}
                                 @mousedown=${(e: Event) => {
                                     disabled && e.preventDefault()
                                     this.onOptionClick(value)
                                 }}
-                            >${label}</li>
+                                title=${ifDefined(title)}
+                            >${htmlElement ?? label}</li>
                         `
                     )
                 }

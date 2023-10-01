@@ -8,7 +8,7 @@ export declare class ComboboxInterface {
     required: boolean;
     placeholder: string;
     comboboxElement: HTMLInputElement;
-    renderInput(popovertarget: string): TemplateResult;
+    renderInput(listboxId: string): TemplateResult;
 }
 
 export const ComboboxMixin = <T extends Constructor<LitElement>>(
@@ -31,7 +31,7 @@ export const ComboboxMixin = <T extends Constructor<LitElement>>(
                         --text-color: #fff;
                     }
                 }
-                [role="combobox"] {
+                [part="combobox"] {
                     box-sizing: border-box;
                     width: 100%;
                     height: 100%;
@@ -47,9 +47,44 @@ export const ComboboxMixin = <T extends Constructor<LitElement>>(
         @property({ type: Boolean, reflect: true }) required!: boolean;
         @property({ type: String, reflect: true }) placeholder = '';
         @property({ type: String, reflect: true }) name = '';
-        @property({ type: Number, reflect: true }) tabIndex = -1;
 
         private _internals!: ElementInternals;
+
+        constructor(...params: any) {
+            super();
+            this._internals = this.attachInternals();
+            this.role = "combobox";
+            this.tabIndex = 0;
+        }
+
+        connectedCallback() {
+            super.connectedCallback();
+            this.addEventListener('focusin', this.focus);
+            this.addEventListener('focusout', this.blur);
+        }
+
+        disconnectedCallback() {
+            super.disconnectedCallback();
+            this.removeEventListener('focusin', this.focus);
+            this.removeEventListener('focusout', this.blur);
+        }
+
+        focus() {
+            this.comboboxElement.focus(); 
+            this.tabIndex = -1;
+        }
+
+        blur() {
+            this.tabIndex = 0;
+        }
+
+        checkValidity(): boolean {
+            return this._internals.checkValidity();
+        }
+
+        get form(): HTMLFormElement | null {
+            return this._internals.form;
+        }
 
         onFocus(e: FocusEvent) {
             this.dispatchEvent(new Event('focus', { bubbles: true, composed: true }));
@@ -69,15 +104,9 @@ export const ComboboxMixin = <T extends Constructor<LitElement>>(
             }, 'Invalid input.');
         }
 
-        constructor(...params: any) {
-            super();
-            this._internals = this.attachInternals();
-        }
-
-        renderInput(popovertarget: string) {
+        renderInput(listboxId: string) {
             return html`
                 <input
-                    role="combobox"
                     part="combobox"
                     type="text"
                     @input=${this.onInput}
@@ -85,7 +114,7 @@ export const ComboboxMixin = <T extends Constructor<LitElement>>(
                     @blur=${this.onBlur}
                     .placeholder=${this.placeholder}
                     ?disabled=${this.disabled}
-                    popovertarget=${popovertarget}
+                    popovertarget=${listboxId}
                     autocomplete="off"
                 />
             `;

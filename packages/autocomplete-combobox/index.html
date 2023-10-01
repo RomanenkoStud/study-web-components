@@ -27,12 +27,6 @@
             outline: none;
             border-color: #007BFF;
         }
-        autocomplete-combobox::part(combobox) {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
         autocomplete-combobox::part(listbox) {
             background-color: #fff;
             border: 1px solid #ccc;
@@ -61,6 +55,14 @@
             bottom: 0;
             left: 0;
         }
+        autocomplete-combobox:invalid#formCombobox::part(combobox),
+        autocomplete-combobox:invalid#formCombobox::part(listbox) {
+            border: 1px solid red;
+        }
+        autocomplete-combobox:valid#formCombobox::part(combobox),
+        autocomplete-combobox:valid#formCombobox::part(listbox) {
+            border: 1px solid green;
+        }
     </style>
     <autocomplete-combobox id="normal-cb">
         <option value="apple" label="Apple"></option>
@@ -78,15 +80,11 @@
         <option value="raspberry" label="Raspberry" disabled></option>
         <option value="lemon" label="Lemon"></option>
     </autocomplete-combobox>
-    <autocomplete-combobox>
-        <option value="apple" label="Apple"></option>
-        <option value="banana" label="Banana" disabled></option>
-        <option value="orange" label="Orange"></option>
-        <option value="watermelon" label="Watermelon"></option>
-        <option value="raspberry" label="Raspberry" disabled></option>
-        <option value="lemon" label="Lemon"></option>
+    <autocomplete-combobox src="./options.json">
     </autocomplete-combobox>
-    <autocomplete-combobox id="js-controlled-cb">
+    <autocomplete-combobox id="customData" src="./customOptions.json">
+    </autocomplete-combobox>
+    <autocomplete-combobox id="js-controlled-cb" title="Smart dropdown">
     </autocomplete-combobox>
     <autocomplete-combobox id="bottom" placeholder="Smart dropdown">
         <option value="apple" label="Apple"></option>
@@ -96,16 +94,17 @@
         <option value="raspberry" label="Raspberry" disabled></option>
         <option value="lemon" label="Lemon"></option>
     </autocomplete-combobox>
-    <form>
-        <autocomplete-combobox required name="fruits">
-            <option value="apple" label="Apple"></option>
-            <option value="banana" label="Banana" disabled></option>
-            <option value="orange" label="Orange"></option>
-            <option value="watermelon" label="Watermelon"></option>
-            <option value="raspberry" label="Raspberry" disabled></option>
-            <option value="lemon" label="Lemon"></option>
+    <form id="myForm">
+        <autocomplete-combobox required name="fruits" id="formCombobox">
+            <option value="apple" label="Apple" title="Apple"></option>
+            <option value="banana" label="Banana" disabled title="Banana"></option>
+            <option value="orange" label="Orange" title="Orange"></option>
+            <option value="watermelon" label="Watermelon" title="Watermelon"></option>
+            <option value="raspberry" label="Raspberry" disabled title="Raspberry"></option>
+            <option value="lemon" label="Lemon" title="Raspberry"></option>
         </autocomplete-combobox>
         <button type="submit">Submit</button>
+        <button type="button" id="reveal">Reveal</button>
     </form>
     <p>
         Tab Key: If the combobox dropdown is open (ariaExpanded is 'true'), 
@@ -147,6 +146,27 @@
             {label: 'Blue', value: 'blue'},
             {label: 'Blue', value: 'blue'},
         ];
+        document.getElementById('reveal').addEventListener('click', (e) => {
+            console.log(document.querySelector('#formCombobox').form);
+        })
+        document.querySelector('#customData').parseOptions = (data) => {
+            return data.map(({title, author, id, number}) => {
+                const newDiv = document.createElement("div");
+                const titleElement = document.createElement("div");
+                titleElement.textContent = title;
+                newDiv.appendChild(titleElement);
+                const authorElement = document.createElement("div");
+                authorElement.textContent = author;
+                newDiv.appendChild(authorElement);
+                return {
+                    label: `${title} ${author}`, 
+                    title: `${title} ${author}`, 
+                    htmlElement: newDiv, 
+                    value:id, 
+                    disabled: number <= 0
+                };
+            });
+        };
     </script>
 </body>
 </html>
