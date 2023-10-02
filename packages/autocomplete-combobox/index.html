@@ -104,6 +104,7 @@
             <option value="raspberry" label="Raspberry" disabled title="Raspberry"></option>
             <option value="lemon" label="Lemon" title="Raspberry"></option>
         </autocomplete-combobox>
+        <button type="reset">Reset</button>
         <button type="submit">Submit</button>
         <button type="button" id="reveal">Reveal</button>
     </form>
@@ -148,7 +149,7 @@
             {label: 'Blue', value: 'blue'},
         ];
         document.getElementById('reveal').addEventListener('click', (e) => {
-            console.log(document.querySelector('#formCombobox').form);
+            console.log(document.querySelector('#formCombobox').validationMessage);
         })
         document.querySelector('#customData').parseOptions = (data) => {
             return data.map(({title, author, id, number}) => {

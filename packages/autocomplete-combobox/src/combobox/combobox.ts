@@ -41,6 +41,7 @@ export class ComboboxElement extends LitElement {
     set value(newValue: string) {
         if (!newValue) {
             this._value = '';
+            this.inputElement.value = '';
             this.onChange();
             return;
         }
@@ -154,12 +155,10 @@ export class ComboboxElement extends LitElement {
 
     formResetCallback() {
         this.value = '';
-        this.onChange();
     }
 
     formStateRestoreCallback(state: string, mode: string) {
         this.value = state;
-        this.onChange();
     }
 
     reportValidity(): boolean { return this._internals.reportValidity(); }
