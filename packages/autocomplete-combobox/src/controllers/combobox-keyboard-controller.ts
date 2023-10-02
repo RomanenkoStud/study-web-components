@@ -94,11 +94,21 @@ export class ComboboxKeyboardController {
 
     private updateVisualFocus() {
         this.host.optionElements.forEach((element, index) => {
+            const partAttribute = element.getAttribute('part') || '';
+            const parts = partAttribute.split(' ');
+
             if (index === this.activeElementIndex) {
-                element.setAttribute('part', 'option option-focused');
+                if (!parts.includes('option-focused')) {
+                    parts.push('option-focused');
+                }
+                element.setAttribute('part', parts.join(' '));
                 element.scrollIntoViewIfNeeded();
             } else {
-                element.setAttribute('part', 'option');
+                const focusedIndex = parts.indexOf('option-focused');
+                if (focusedIndex !== -1) {
+                    parts.splice(focusedIndex, 1);
+                    element.setAttribute('part', parts.join(' '));
+                }
             }
         });
     }

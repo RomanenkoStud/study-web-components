@@ -1,4 +1,4 @@
-import { LitElement, html, unsafeCSS, TemplateResult } from 'lit';
+import { LitElement, html, unsafeCSS } from 'lit';
 import { property, query, queryAll } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import {cache} from 'lit/directives/cache.js';
@@ -188,7 +188,7 @@ export class ComboboxElement extends LitElement {
     renderOptionsList(options: Option[]) {
         return html`${cache(options.map((option) => (html`
             <li
-                part="option"
+                part=${`option ${option.disabled ? 'option-disabled' : ''}`}
                 id=${option.value}
                 ?disabled=${option.disabled}
                 @mousedown=${(e: Event) => {

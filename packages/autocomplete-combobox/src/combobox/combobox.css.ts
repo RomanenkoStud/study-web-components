@@ -30,7 +30,7 @@ export const styles = css`
         }
     }
 
-    [part="input"] {
+    :host::part(input) {
         box-sizing: border-box;
         width: 100%;
         height: 100%;
@@ -69,7 +69,7 @@ export const styles = css`
         }
     }
 
-    [part="listbox"] {
+    :host::part(listbox) {
         box-sizing: border-box;
         overflow-y: auto;
         list-style: none;
@@ -99,37 +99,38 @@ export const styles = css`
         background-color: var(--scrollbar-thumb-color);
     }
 
-    [part="option"] {
+    :host::part(option) {
         background-color: var(--option-background);
         color: var(--text-color);
         cursor: pointer;
     }
 
-    [part="option"]:hover {
+    :host::part(option):hover {
         background-color: color-mix(in srgb, var(--option-background) 50%, black);
     }
     
-    [part="option option-focused"] {
+    :host::part(option-focused) {
         background-color: color-mix(in srgb, var(--option-background) 50%, black);
     }
 
-    [part="option"][disabled],
-    [part="option"][disabled]:hover {
+    :host::part(option-disabled),
+    :host::part(option-disabled):hover {
         background-color: color-mix(in srgb, var(--option-background) 75%, black) !important;
         cursor: default
     }
 
     @media (prefers-color-scheme: dark) {
-        [part="option"]:hover {
+        :host::part(option):hover {
             background-color: color-mix(in srgb, var(--option-background) 50%, white);
             cursor: pointer;
         }
         
-        [part="option-focused"] {
+        :host::part(option-focused) {
             background-color: color-mix(in srgb, var(--option-background) 50%, white);
         }
 
-        [part="option"][disabled] {
+        :host::part(option-disabled),
+        :host::part(option-disabled):hover {
             background-color: color-mix(in srgb, var(--option-background) 75%, white);
             cursor: default;
         }
