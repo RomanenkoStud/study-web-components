@@ -44,14 +44,13 @@ export class AutocompleteCombobox extends SrcDataMixin(ComboboxElement) {
                 id=${listboxId}
                 part="listbox"
             >
-                ${this.options
-                    .filter(({label}) =>
+                ${this.renderOptionsList(
+                    this.options.filter(({label}) =>
                         label
                             .toLowerCase()
                             .includes(this.filterValue.toLowerCase())
                     )
-                    .map((option) => this.renderOption(option))
-                }
+                )}
             </ul>
         `;
     }

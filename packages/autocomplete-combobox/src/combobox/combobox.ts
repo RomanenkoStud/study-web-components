@@ -1,6 +1,7 @@
 import { LitElement, html, unsafeCSS, TemplateResult } from 'lit';
 import { property, query, queryAll } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import {cache} from 'lit/directives/cache.js';
 import { Option } from '../types';
 
 // @ts-ignore
@@ -38,6 +39,12 @@ export class ComboboxElement extends LitElement {
 
     @property({ type: String })
     set value(newValue: string) {
+        if (!newValue) {
+            this._value = '';
+            this.onChange();
+            return;
+        }
+
         const option = this.getOption(newValue);
 
         if (option) {
@@ -179,8 +186,8 @@ export class ComboboxElement extends LitElement {
         }
     }
 
-    renderOption(option: Option) {
-        return html`
+    renderOptionsList(options: Option[]) {
+        return html`${cache(options.map((option) => (html`
             <li
                 part="option"
                 id=${option.value}
@@ -191,7 +198,8 @@ export class ComboboxElement extends LitElement {
                 }}
                 title=${ifDefined(option.title)}
             >${option.htmlElement ?? option.label}</li>
-        `;
+            `)))
+        }`
     }
 
 
@@ -202,8 +210,7 @@ export class ComboboxElement extends LitElement {
                 id=${listboxId}
                 part="listbox"
             >
-                ${this.options.map((option) => this.renderOption(option))
-                }
+                ${this.renderOptionsList(this.options)}
             </ul>
         `;
     }
