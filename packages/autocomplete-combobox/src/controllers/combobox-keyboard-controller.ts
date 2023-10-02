@@ -42,12 +42,12 @@ export class ComboboxKeyboardController {
                 this.shiftFocus(-1);
                 break;
             case 'Enter':
-                event.preventDefault();
                 if (this.activeElementIndex > -1) {
+                    event.preventDefault();
                     const activeElement = this.host.optionElements[this.activeElementIndex];
                     this.host.value = activeElement.id;
-                    this.host.hideOptions();
                 }
+                this.host.hideOptions();
                 break;
             case 'Escape':
                 event.preventDefault();

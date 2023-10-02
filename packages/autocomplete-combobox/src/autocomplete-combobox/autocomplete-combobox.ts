@@ -13,16 +13,13 @@ export class AutocompleteCombobox extends SrcDataMixin(ComboboxElement) {
 
     onChange() {
         super.onChange();
-        if(this.value) {
-            this.filterValue = this.getOption(this.value).label;
-        }
+        this.filterValue = this.value ? this.getOption(this.value).label : '';
     }
 
     onInput() {
         super.onInput();
         this.filterValue = this.inputElement.value;
         this.debounceInput();
-        this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
     }
 
     onLoad(data: any) {

@@ -31,7 +31,6 @@ export class ComboboxElement extends LitElement {
     @property({ type: Boolean, reflect: true }) disabled!: boolean;
     @property({ type: Boolean, reflect: true }) required!: boolean;
     @property({ type: String, reflect: true }) placeholder = '';
-    @property({ type: String, reflect: true }) name = '';
 
     private _internals!: ElementInternals;
     private _options: Record<string, Option> = {};
@@ -39,21 +38,22 @@ export class ComboboxElement extends LitElement {
 
     @property({ type: String })
     set value(newValue: string) {
-        if (!newValue) {
-            this._value = '';
-            return;
-        }
-
         const option = this.getOption(newValue);
 
         if (option) {
-            this._value = newValue;
-            this.onChange();
+            if (!option.disabled) {
+                this._value = newValue;
+                this.inputElement.value = option.label;
+            } else {
+                this._value = '';
+                console.warn(`Option with value "${newValue}" is disabled.`);  
+            }
         } else {
+            this._value = '';
             console.warn(`Option with value "${newValue}" does not exist.`);
         }
 
-        this.inputElement.value = option.label;
+        this.onChange();
     }
 
     get value() {
@@ -103,14 +103,6 @@ export class ComboboxElement extends LitElement {
         this.ariaHasPopup = "listbox";
     }
 
-    connectedCallback() {
-        super.connectedCallback();
-    }
-
-    disconnectedCallback() {
-        super.disconnectedCallback();
-    }
-
     firstUpdated() {
         if (this.options.length === 0) {
             this.slotElement.addEventListener('slotchange', () => {
@@ -133,16 +125,38 @@ export class ComboboxElement extends LitElement {
     }
 
     onChange() {
+        this._internals.setValidity({ 
+            valueMissing: this.required && this.value.trim() === '',
+        }, 'Invalid input.');
         this.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
     }
 
-    checkValidity(): boolean {
-        return this._internals.checkValidity();
+    get form() { return this._internals.form; }
+    get name() { return this.getAttribute('name'); }
+    get type() { return this.localName; }
+    get validity() { return this._internals.validity; }
+    get validationMessage() { return this._internals.validationMessage; }
+    get willValidate() { return this._internals.willValidate; }
+
+    formAssociatedCallback(nullableForm: HTMLFormElement | null) {
+        this._internals.setValidity({ 
+            valueMissing: this.required && this.value.trim() === '',
+        }, 'Invalid input.');
+        return;
     }
 
-    get form(): HTMLFormElement | null {
-        return this._internals.form;
+    formResetCallback() {
+        this.value = '';
+        this.onChange();
     }
+
+    formStateRestoreCallback(state: string, mode: string) {
+        this.value = state;
+        this.onChange();
+    }
+
+    reportValidity(): boolean { return this._internals.reportValidity(); }
+    checkValidity(): boolean { return this._internals.checkValidity(); }
 
     onFocus() {
         this.showOptions();
@@ -156,12 +170,6 @@ export class ComboboxElement extends LitElement {
 
     onInput() {
         this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
-    }
-
-    updated(): void {
-        this._internals.setValidity({ 
-            valueMissing: this.required && this.inputElement.value.trim() === '',
-        }, 'Invalid input.');
     }
 
     onOptionClick(value: string) {
@@ -208,6 +216,9 @@ export class ComboboxElement extends LitElement {
                 @input=${this.onInput}
                 @focus=${this.onFocus}
                 @blur=${this.onBlur}
+                @change=${() => {
+                    this.value = this.inputElement.value;
+                }}
                 .placeholder=${this.placeholder}
                 ?disabled=${this.disabled}
                 popovertarget="options"
