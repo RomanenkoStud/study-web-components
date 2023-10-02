@@ -13,6 +13,8 @@ export interface OptionElement extends HTMLElement {
 };
 
 export class ComboboxElement extends LitElement {
+    static shadowRootOptions = {...LitElement.shadowRootOptions, delegatesFocus: true};
+
     static formAssociated = true;
 
     static styles = [
@@ -103,14 +105,10 @@ export class ComboboxElement extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
-        this.addEventListener('focusin', this.focusInput);
-        this.addEventListener('focusout', this.blurInput);
     }
 
     disconnectedCallback() {
         super.disconnectedCallback();
-        this.removeEventListener('focusin', this.focusInput);
-        this.removeEventListener('focusout', this.blurInput);
     }
 
     firstUpdated() {
@@ -136,15 +134,6 @@ export class ComboboxElement extends LitElement {
 
     onChange() {
         this.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
-    }
-
-    focusInput() {
-        this.inputElement.focus(); 
-        this.tabIndex = -1;
-    }
-
-    blurInput() {
-        this.tabIndex = 0;
     }
 
     checkValidity(): boolean {
