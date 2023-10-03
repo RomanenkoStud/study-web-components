@@ -143,6 +143,7 @@ export class ComboboxElement extends LitElement {
         this._internals.setValidity({ 
             valueMissing: this.required && this.value.trim() === '',
         }, 'Invalid input.');
+        this._internals.setFormValue(this.value);
         this.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
     }
 
@@ -157,6 +158,7 @@ export class ComboboxElement extends LitElement {
         this._internals.setValidity({ 
             valueMissing: this.required && this.value.trim() === '',
         }, 'Invalid input.');
+        this._internals.setFormValue(this.value);
         return;
     }
 
