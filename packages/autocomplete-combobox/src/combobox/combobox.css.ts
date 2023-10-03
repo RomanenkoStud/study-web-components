@@ -3,7 +3,6 @@ import { css } from 'lit';
 export const styles = css`    
     :host {
         display: inline-block;
-        position: relative;
         font-family: Arial, sans-serif;
         line-height: 1.2; 
         font-size: 0.8rem;
@@ -40,9 +39,6 @@ export const styles = css`
 
     [popover] {
         position: absolute;
-        width: 100%;
-        top: 100%;
-        left: 0;
     }
 
     @supports(anchor-name: --combobox) {
@@ -51,6 +47,7 @@ export const styles = css`
         }
 
         [popover] {
+            position: fixed;
             anchor-default: --combobox;
             left: anchor(left);
             width: anchor-size(width);

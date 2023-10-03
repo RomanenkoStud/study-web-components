@@ -3,6 +3,7 @@ import { property, query, queryAll } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import {cache} from 'lit/directives/cache.js';
 import { Option } from '../types';
+import { AnchorController } from '../controllers';
 
 // @ts-ignore
 import popoverPolyfill from "@oddbird/popover-polyfill/dist/popover.css?inline";
@@ -36,6 +37,7 @@ export class ComboboxElement extends LitElement {
     private _internals!: ElementInternals;
     private _options: Record<string, Option> = {};
     private _value = '';
+    protected anchorController!: AnchorController;
 
     @property({ type: String })
     set value(newValue: string) {
@@ -109,6 +111,11 @@ export class ComboboxElement extends LitElement {
         this.tabIndex = 0;
         this.ariaAutoComplete = "list";
         this.ariaHasPopup = "listbox";
+
+        if (!CSS.supports('anchor-name', '--combobox')) {
+            // The anchor-name property is not supported
+            this.anchorController = new AnchorController(this)
+        }
     }
 
     firstUpdated() {
