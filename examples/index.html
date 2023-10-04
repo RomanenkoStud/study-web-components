@@ -309,10 +309,9 @@
                 Form validation
             </h3>
             <form>
-                <autocomplete-combobox 
-                    id="form-cb"
+                <autocomplete-combobox
                     required
-                    class="mb-2 w-full"
+                    class="mb-2 w-full form"
                     name="fruits"
                     placeholder="select fruit"
                 >
@@ -325,23 +324,31 @@
                 </autocomplete-combobox>
                 <numeric-input 
                     lang="en"
-                    class="mb-2 w-full"
-                    id="form-numeric"
+                    class="mb-2 w-full form"
                     name="weight"
                     placeholder="select weight"
+                    id="form-numeric"
                     required
                 ></numeric-input>
                 <numeric-input 
-                    class="mb-2 w-full"
+                    class="mb-2 w-full form"
                     name="weight"
                     placeholder="numeric disabled"
                     disabled
                 ></numeric-input>
+                <numeric-input 
+                    class="mb-2 w-full form"
+                    name="weight"
+                    max="100"
+                    min="10"
+                    required
+                    id="form-numeric-2"
+                    placeholder="numeric range"
+                ></numeric-input>
                 <date-input
-                    id="form-date"
                     name="date"
                     required
-                    class="mb-2 w-full"
+                    class="mb-2 w-full form"
                     placeholder="select date"
                 ></date-input>
                 <div class="grid grid-cols-2 gap-2">
@@ -354,6 +361,7 @@
                 </div>
                 <script>
                     document.querySelector('#form-numeric').formatOptions = { "style": "unit", unit: 'kilogram' };
+                    document.querySelector('#form-numeric-2').formatOptions = { "style": "currency", "currency": "USD" };
                 </script>
             </form>
         </div>
@@ -400,31 +408,25 @@
     autocomplete-combobox.custom::part(option-focused) {
         background-color: #e4a4a4;
     }
-    autocomplete-combobox:invalid#form-cb::part(input),
-    autocomplete-combobox:invalid#form-cb::part(listbox),
-    numeric-input:invalid#form-numeric::part(input),
-    date-input:invalid#form-date::part(input) {
+    autocomplete-combobox:invalid.form::part(input),
+    autocomplete-combobox:invalid.form::part(listbox),
+    numeric-input:invalid.form::part(input),
+    date-input:invalid.form::part(input) {
         border: 1px solid red;
     }
-    autocomplete-combobox:valid#form-cb::part(input),
-    autocomplete-combobox:valid#form-cb::part(listbox),
-    numeric-input:valid#form-numeric::part(input),
-    date-input:valid#form-date::part(input) {
+    autocomplete-combobox:valid.form::part(input),
+    autocomplete-combobox:valid.form::part(listbox),
+    numeric-input:valid.form::part(input),
+    date-input:valid.form::part(input) {
         border: 1px solid green;
     }
-    date-input:valid#form-date {
+    date-input:valid.form {
         --date-icon-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 24 24"><path fill="green" d="M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z"/></svg>');
     }
-    date-input:invalid#form-date {
+    date-input:invalid.form {
         --date-icon-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 24 24"><path fill="red" d="M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z"/></svg>');
     }
-    date-input:focus#form-date {
-        --date-icon-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 24 24"><path fill="black" d="M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z"/></svg>');
-    }
-    autocomplete-combobox:disabled#form-cb::part(input),
-    autocomplete-combobox:disabled#form-cb::part(listbox),
-    numeric-input:disabled#form-numeric::part(input),
-    date-input:disabled#form-date::part(input) {
+    numeric-input.form:disabled::part(input) {
         border: 1px solid gray;
     }
 </style>
