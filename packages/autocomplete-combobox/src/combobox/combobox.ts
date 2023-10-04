@@ -1,4 +1,4 @@
-import { LitElement, html, unsafeCSS } from 'lit';
+import { LitElement, html, unsafeCSS, PropertyValueMap } from 'lit';
 import { property, query, queryAll } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import {cache} from 'lit/directives/cache.js';
@@ -32,7 +32,7 @@ export class ComboboxElement extends FormInputMixin(LitElement) {
     set value(newValue: string) {
         if (!newValue) {
             super.value = '';
-            this.inputElement.value = '';
+            this.requestUpdate("value");
             this.onChange();
             return;
         }
@@ -42,7 +42,6 @@ export class ComboboxElement extends FormInputMixin(LitElement) {
         if (option) {
             if (!option.disabled) {
                 super.value = newValue;
-                this.inputElement.value = option.label;
             } else {
                 super.value = '';
                 console.warn(`Option with value "${newValue}" is disabled.`);  
@@ -52,6 +51,7 @@ export class ComboboxElement extends FormInputMixin(LitElement) {
             console.warn(`Option with value "${newValue}" does not exist.`);
         }
 
+        this.requestUpdate("value");
         this.onChange();
     }
 
@@ -127,6 +127,14 @@ export class ComboboxElement extends FormInputMixin(LitElement) {
         }
     }
 
+    updated(changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>) {
+        super.updated(changedProperties);
+        if(changedProperties.has('value') && this.inputElement) {
+            const option = this.getOption(this.value);
+            this.inputElement.value = option ? option.label : '';
+        }
+    }
+
     onFocus() {
         super.onFocus();
         this.showOptions();
@@ -145,19 +153,20 @@ export class ComboboxElement extends FormInputMixin(LitElement) {
     }
 
     renderOptionsList(options: Option[]) {
-        return html`${cache(options.map((option) => (html`
-            <li
-                part=${`option ${option.disabled ? 'option-disabled' : ''}`}
-                id=${option.value}
-                ?disabled=${option.disabled}
-                @mousedown=${(e: Event) => {
-                    option.disabled && e.preventDefault()
-                    this.onOptionClick(option.value)
-                }}
-                title=${ifDefined(option.title)}
-            >${option.htmlElement ?? option.label}</li>
-            `)))
-        }`
+        return cache(options.map((option) => (
+            html`
+                <li
+                    part=${`option ${option.disabled ? 'option-disabled' : ''}`}
+                    id=${option.value}
+                    ?disabled=${option.disabled}
+                    @mousedown=${(e: Event) => {
+                        option.disabled && e.preventDefault()
+                        this.onOptionClick(option.value)
+                    }}
+                    title=${ifDefined(option.title)}
+                >${option.htmlElement ?? option.label}</li>
+            `
+        )))
     }
 
 
