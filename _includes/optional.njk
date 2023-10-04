@@ -1,9 +1,0 @@
-<h2 class="text-2xl mb-4">Optional</h2>
-{% for package in optionalPackages.packages %}
-    <p class="break-all">
-        To install the <strong>{{ package.name }}</strong> library as a separate package, run:
-    </p>
-    <div class="overflow-x-auto h-10">
-        <pre><code class="language-shell break-all">npm i {{ package.path }}</code></pre>
-    </div>
-{% endfor %}
