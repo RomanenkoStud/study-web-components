@@ -18,11 +18,6 @@ export class DateInput extends FormInputMixin(LitElement) {
 
     private valueAsDate: Date | null = null;
 
-    formResetCallback() {
-        this.value = '';
-        this.inputElement.value = '';
-    }
-
     formStateRestoreCallback(state: string, mode: string) {
         this.valueAsDate = new Date(state);
     }

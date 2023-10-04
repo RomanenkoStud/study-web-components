@@ -104,11 +104,11 @@ export const FormInputMixin = <T extends Constructor<LitElement>>(
         formAssociatedCallback(nullableForm: HTMLFormElement | null) {
             this.validate();
             this.setFormValue(this.value, this.value);
-            return;
         }
     
         formResetCallback() {
             this.value = '';
+            this.inputElement.value = '';
         }
     
         formStateRestoreCallback(state: string, mode: string) {

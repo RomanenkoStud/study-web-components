@@ -46,16 +46,6 @@ export class NumericInput extends FormInputMixin(LitElement) {
         this.inputElement.value = this.format(this.value);
     }
 
-    formResetCallback() {
-        this.value = '';
-        this.inputElement.value = '';
-    }
-
-    formStateRestoreCallback(state: string, mode: string) {
-        this.value = state;
-        this.inputElement.value = this.format(state);
-    }
-
     onInput() {
         super.onInput();
         this.value = this.inputElement.valueAsDate?.toISOString() ?? '';
