@@ -27,6 +27,7 @@ export declare class FormInputInterface {
     formStateRestoreCallback(state: string, mode: string): void;
     setValidity(flags?: ValidityStateFlags | undefined, message?: string | undefined, anchor?: HTMLElement | undefined): void;
     setFormValue(value: string | File | FormData | null, state?: string | File | FormData | null | undefined): void;
+    validate(): void;
 }
 
 export const FormInputMixin = <T extends Constructor<LitElement>>(
@@ -74,9 +75,7 @@ export const FormInputMixin = <T extends Constructor<LitElement>>(
         }
 
         onChange() {
-            this.setValidity({ 
-                valueMissing: this.required && this.value.trim() === '',
-            }, 'Value is required');
+            this.validate();
             this.setFormValue(this.value, this.value);
             this.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
         }
@@ -96,10 +95,14 @@ export const FormInputMixin = <T extends Constructor<LitElement>>(
         get validationMessage() { return this._internals.validationMessage; }
         get willValidate() { return this._internals.willValidate; }
 
-        formAssociatedCallback(nullableForm: HTMLFormElement | null) {
+        validate() {
             this.setValidity({ 
                 valueMissing: this.required && this.value.trim() === '',
             }, 'Value is required');
+        }
+
+        formAssociatedCallback(nullableForm: HTMLFormElement | null) {
+            this.validate();
             this.setFormValue(this.value, this.value);
             return;
         }
