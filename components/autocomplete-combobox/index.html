@@ -71,11 +71,21 @@
     <strong>Attributes:</strong>
     <ul class="list-disc ml-6">
       
-        <li>selectedValue (Type: string)</li>
+        <li>loading (Type: boolean)</li>
       
-        <li>max-height (Type: number)</li>
+        <li>error (Type: boolean)</li>
       
-        <li>options (Type: string[])</li>
+        <li>src (Type: string)</li>
+      
+        <li>options (Type: Option[])</li>
+      
+        <li>disabled (Type: boolean)</li>
+      
+        <li>required (Type: boolean)</li>
+      
+        <li>placeholder (Type: string)</li>
+      
+        <li>value (Type: string)</li>
       
     </ul>
   </div>
@@ -85,17 +95,59 @@
     <strong>Properties:</strong>
     <ul class="list-disc ml-6">
       
-        <li>styles (Type: CSSResult)</li>
-      
-        <li>selectedValue (Type: string)</li>
-      
-        <li>maxHeight (Type: number)</li>
-      
-        <li>isFocused (Type: boolean)</li>
-      
         <li>filterValue (Type: string)</li>
       
-        <li>options (Type: string[])</li>
+        <li>loading (Type: boolean)</li>
+      
+        <li>error (Type: boolean)</li>
+      
+        <li>src (Type: string)</li>
+      
+        <li>data (Type: object)</li>
+      
+        <li>debounceInput (Type: () =&gt; void)</li>
+      
+        <li>slotElement (Type: HTMLSlotElement)</li>
+      
+        <li>listboxElement (Type: HTMLElement)</li>
+      
+        <li>optionElements (Type: NodeListOf&lt;OptionElement&gt;)</li>
+      
+        <li>options (Type: Option[])</li>
+      
+        <li>role (Type: string)</li>
+      
+        <li>ariaAutoComplete (Type: string)</li>
+      
+        <li>ariaHasPopup (Type: string)</li>
+      
+        <li>formAssociated (Type: boolean)</li>
+      
+        <li>styles (Type: array)</li>
+      
+        <li>inputElement (Type: HTMLInputElement)</li>
+      
+        <li>disabled (Type: boolean)</li>
+      
+        <li>required (Type: boolean)</li>
+      
+        <li>placeholder (Type: string)</li>
+      
+        <li>value (Type: string)</li>
+      
+        <li>form (Type: )</li>
+      
+        <li>name (Type: string | null)</li>
+      
+        <li>type (Type: string)</li>
+      
+        <li>validity (Type: )</li>
+      
+        <li>validationMessage (Type: )</li>
+      
+        <li>willValidate (Type: )</li>
+      
+        <li>tabIndex (Type: number)</li>
       
     </ul>
   </div>
@@ -104,6 +156,16 @@
   <div class="mb-4">
     <strong>Events:</strong>
     <ul class="list-disc ml-6">
+      
+        <li>load</li>
+      
+        <li>change</li>
+      
+        <li>focus</li>
+      
+        <li>blur</li>
+      
+        <li>input</li>
       
     </ul>
   </div>

@@ -1,0 +1,7 @@
+<template>
+	<nav class="overflow-hidden h-0 sm:h-full">
+        <slot></slot>
+    </nav>
+</template>
+
+<script type='module' src="./menu-container.js"></script>

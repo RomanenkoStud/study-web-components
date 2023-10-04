@@ -1,0 +1,27 @@
+<header class="flex flex-col justify-between gap-x-5 bg-blue-600 text-white py-4 px-8 sm:px-16 sm:flex-row">
+  <div class="flex justify-between items-center">
+    <h1 class="text-xl font-semibold">
+      <a href="{{'/' | url | safe}}">Study Web Components</a>
+    </h1>
+    <!-- Hamburger Menu Button -->
+    {% renderTemplate "webc" %}
+      <menu-button for-container="menu"></menu-button>
+    {% endrenderTemplate %}
+  </div>
+  <!-- Navigation Menu -->
+  {% renderTemplate "webc" %}
+    <menu-container id="menu">
+        <ul class="py-5 sm:py-0 flex flex-col gap-5 sm:flex-row items-center">
+            <li>
+                <a class="hover:underline" :href="url('/start/')">Getting started</a>
+            </li>
+            <li>
+                <a class="hover:underline" :href="url('/components/')">Components</a>
+            </li>
+            <li>
+                <a class="hover:underline" :href="url('/examples/')">Examples</a>
+            </li>
+        </ul>
+    </menu-container>
+  {% endrenderTemplate %}
+</header>
