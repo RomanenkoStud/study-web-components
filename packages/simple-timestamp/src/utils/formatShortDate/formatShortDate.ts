@@ -1,3 +1,7 @@
+import memoizeFormatConstructor from 'intl-format-cache';
+
+const memoizedDateTimeFormat = memoizeFormatConstructor(Intl.DateTimeFormat);
+
 export function formatShortDate(value: Date, locale: string, timezone: string): string {
     const currentYear = new Date().getFullYear();
     const options: Intl.DateTimeFormatOptions = {
@@ -7,5 +11,6 @@ export function formatShortDate(value: Date, locale: string, timezone: string): 
         year: value.getFullYear() !== currentYear ? '2-digit' : undefined,
     };
     
-    return new Intl.DateTimeFormat(locale, options).format(value);
+    const formatter = memoizedDateTimeFormat(locale, options);
+    return formatter.format(value);
 }

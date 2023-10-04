@@ -1,6 +1,6 @@
 {
   "name": "@romanenko.pavlo/simple-timestamp",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A simple timestamp library for formatting and displaying timestamps.",
   "files": [
     "dist"
@@ -29,6 +29,7 @@
     "vitest": "^0.34.3"
   },
   "dependencies": {
+    "intl-format-cache": "^4.3.1",
     "lit": "^2.8.0"
   }
 }

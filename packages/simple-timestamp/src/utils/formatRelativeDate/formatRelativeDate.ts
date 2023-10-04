@@ -1,9 +1,13 @@
+import memoizeFormatConstructor from 'intl-format-cache';
+
+const memoizedRelativeTimeFormat = memoizeFormatConstructor(Intl.RelativeTimeFormat);
+
 export function formatRelativeDate(value: Date, locale: string): string {
     const diffInMilliseconds = Date.now() - value.getTime();
     const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
     const absoluteSeconds = Math.abs(diffInSeconds);
 
-    const formatter = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
+    const formatter = memoizedRelativeTimeFormat(locale, { numeric: 'auto' });
 
     const SECOND = 1;
     const MINUTE = 60 * SECOND;

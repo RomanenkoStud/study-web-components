@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import {
     formatTime,
     formatShortDate,
@@ -14,7 +14,8 @@ export class SimpleTimestamp extends LitElement {
             user-select: none;
         }
 
-        .error-text {
+        :host([error])  {
+            cursor: default;
             text-decoration: underline wavy red;
         }
     `;
@@ -34,9 +35,10 @@ export class SimpleTimestamp extends LitElement {
     @property({ type: String })
     timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    @property({ type: String })
-    label = '';
+    @property({ type: Boolean, reflect: true })
+    error: boolean = false;
 
+    @state()
     private currentFormatIndex = 0;
 
     private formattedDate = (): string => {
@@ -54,29 +56,38 @@ export class SimpleTimestamp extends LitElement {
         }
     };
 
+    private toggleFormat() {
+        if(this.error) {return;}
+
+        this.currentFormatIndex = 
+            (this.currentFormatIndex + 1) %  Object.keys(SimpleTimestamp.formats).length;
+    }
+
     // Add a click event listener to toggle the date format
     connectedCallback() {
         super.connectedCallback();
-        this.addEventListener('click', () => {
-            this.currentFormatIndex = 
-                (this.currentFormatIndex + 1) %  Object.keys(SimpleTimestamp.formats).length;
-            this.requestUpdate();
-        });
+        this.addEventListener('click', this.toggleFormat);
+    }
+
+    disconnectedCallback(): void {
+        super.disconnectedCallback();
+        this.removeEventListener('click', this.toggleFormat);
     }
     
     render() {
-        const prefix = this.label ? ': ' : '';
-
         if (!this.value) {
-            throw new Error('The "value" attribute must be provided.');
+            console.error('The "value" attribute must be provided.');
+            return this.value;
         }
 
         try {
-            return html`<div title="${this.value}">${this.label}${prefix}${this.formattedDate()}</div>`;
+            this.error = false;
+            return this.formattedDate();
         }
         catch (error) {
-            // Handle the parse error by displaying the value text content with wavy red underline
-            return html`<div title="${this.value}"><span class="error-text">${this.value}</span></div>`;
+            console.error('Can not parse the value.');
+            this.error = true;
+            return this.value;
         }
     }
 }
