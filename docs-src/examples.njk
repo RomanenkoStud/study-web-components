@@ -66,13 +66,31 @@ layout: "base.njk"
             >
             </simple-timestamp>
         </div>
+        <div class="bg-white rounded-md shadow-md p-4">
+            <h3 class="text-xl font-semibold mb-2">Error</h3>
+            <simple-timestamp
+                id="timestamp-en"
+                class="
+                    block
+                    w-full
+                    text-center 
+                    rounded-md 
+                    border 
+                    bg-gray-200
+                    shadow-md
+                " 
+                locale='en-US' 
+                timezone="America/New_York"
+                value='2023-03-29T12:427Z'
+            ></simple-timestamp>
+        </div>
     </div>
     <div class="p-10 w-72 flex flex-col gap-3">
         <h2 class="text-2xl font-bold text-center">Numeric Inputs</h2>
         <div class="bg-white rounded-md shadow-md p-4">
             <h3 class="text-xl font-semibold mb-2">Percentage</h3>
             <numeric-input 
-                class="percent"
+                class="percent w-full"
                 value="0.5"
             >
             </numeric-input>
@@ -82,6 +100,7 @@ layout: "base.njk"
             <numeric-input 
                 lang="en"
                 value="1000.50"
+                class="w-full"
             ></numeric-input>
         </div>
         <div class="bg-white rounded-md shadow-md p-4">
@@ -94,7 +113,7 @@ layout: "base.njk"
             <numeric-input 
                 lang="ua"
                 value="540500.50"
-                class="UAH no-spinner"
+                class="UAH no-spinner w-full"
             ></numeric-input>
         </div>
         <script>
@@ -113,7 +132,7 @@ layout: "base.njk"
         <h2 class="text-2xl font-bold text-center">Date Inputs</h2>
         <div class="bg-white rounded-md shadow-md p-4">
             <h3 class="text-xl font-semibold mb-2">Date</h3>
-            <date-input></date-input>
+            <date-input class="w-full"></date-input>
         </div>
         <div class="bg-white rounded-md shadow-md p-4">
             <h3 class="text-xl font-semibold mb-2">
@@ -122,8 +141,22 @@ layout: "base.njk"
                     (js-controlled)
                 </span>
             </h3>
-            <date-input id="js-controlled"></date-input>
+            <date-input id="js-controlled" class="w-full"></date-input>
             <p class="text-sm" id="input-date"></p>
+            <script type="module">
+                const dateInput = document.querySelector('date-input#js-controlled');
+                const displayDate = (value) => {
+                    document.querySelector('p#input-date').textContent = `${value}`; 
+                }
+                // read valueAsDate from value
+                dateInput.addEventListener('input', (e) => {
+                    const inputElement = e.target;
+                    displayDate(inputElement.value);
+                });
+                // write valueAsDate using value
+                dateInput.value = new Date();
+                displayDate(dateInput.value);
+            </script>
         </div>
     </div>
     <div class="p-10 w-72 flex flex-col gap-3">
@@ -131,52 +164,214 @@ layout: "base.njk"
         <div class="bg-white rounded-md shadow-md p-4">
             <h3 class="text-xl font-semibold mb-2">
                 Combobox
+                <span class="text-sm">
+                    (default styles)
+                </span>
             </h3>
-            <autocomplete-combobox 
-                id="normal-cb"
-                max-height="100"
-            >
-                <option value="apple"></option>
-                <option value="banana"></option>
-                <option value="orange"></option>
-                <option value="watermelon"></option>
-                <option value="raspberry"></option>
-                <option value="lemon"></option>
+            <autocomplete-combobox id="normal-cb" class="w-full">
+                <option label="Apple" value="apple"></option>
+                <option label="Banana" value="banana"></option>
+                <option label="Orange" value="orange" disabled></option>
+                <option label="Watermelon" value="watermelon"></option>
+                <option label="Raspberry" value="raspberry"></option>
+                <option label="Lemon" value="lemon"></option>
             </autocomplete-combobox>
         </div>
         <div class="bg-white rounded-md shadow-md p-4">
             <h3 class="text-xl font-semibold mb-2">
                 Combobox
-                <span class="text-sm">
-                    (js-controlled)
+                <span class="text-sm" placeholder>
+                    (default styles/js-controlled)
                 </span>
             </h3>
-            <autocomplete-combobox id="js-controlled-cb">
+            <autocomplete-combobox id="js-controlled-cb" class="w-full">
             </autocomplete-combobox>
+            <script>
+                // add options using js
+                document.querySelector('#js-controlled-cb').options = [
+                    {label: 'Red', value: 'red'},
+                    {label: 'Green', value: 'green'},
+                    {label: 'Blue', value: 'blue'},
+                ];
+            </script>
+        </div>
+        <div class="bg-white rounded-md shadow-md p-4">
+            <h3 class="text-xl font-semibold mb-2">
+                Combobox
+                <span class="text-sm" placeholder>
+                    (default styles/src)
+                </span>
+            </h3>
+            <autocomplete-combobox 
+                id="src-cb" 
+                src="{{'/js/customOptions.json' | url | safe}}"
+                class="w-full"
+            >
+            </autocomplete-combobox>
+            <script>
+                // add custom parcer
+                document.querySelector('#src-cb').parseOptions = (data) => {
+                        return data.map(({title, author, id, number}) => {
+                            const newDiv = document.createElement("div");
+                            const titleElement = document.createElement("div");
+                            titleElement.textContent = title;
+                            newDiv.appendChild(titleElement);
+                            const authorElement = document.createElement("div");
+                            authorElement.textContent = author;
+                            newDiv.appendChild(authorElement);
+                            return {
+                                label: `${title} ${author}`, 
+                                title: `${title} ${author}`, 
+                                htmlElement: newDiv, 
+                                value:id, 
+                                disabled: number <= 0
+                            };
+                        });
+                    };
+            </script>
+        </div>
+        <div class="bg-white rounded-md shadow-md p-4">
+            <h3 class="text-xl font-semibold mb-2">
+                Combobox
+                <span class="text-sm">
+                    (custom styles)
+                </span>
+            </h3>
+            <autocomplete-combobox id="custom-cb" class="custom w-full">
+                <option label="Apple" value="apple"></option>
+                <option label="Banana" value="banana"></option>
+                <option label="Orange" value="orange" disabled></option>
+                <option label="Watermelon" value="watermelon"></option>
+                <option label="Raspberry" value="raspberry"></option>
+                <option label="Lemon" value="lemon"></option>
+            </autocomplete-combobox>
+        </div>
+    </div>
+    <div class="p-10 w-72 flex flex-col gap-3">
+        <h2 class="text-2xl font-bold text-center">Form</h2>
+        <div class="bg-white rounded-md shadow-md p-4">
+            <h3 class="text-xl font-semibold mb-2">
+                Form validation
+            </h3>
+            <form>
+                <autocomplete-combobox
+                    required
+                    class="mb-2 w-full form"
+                    name="fruits"
+                    placeholder="select fruit"
+                >
+                    <option label="Apple" value="apple"></option>
+                    <option label="Banana" value="banana"></option>
+                    <option label="Orange" value="orange" disabled></option>
+                    <option label="Watermelon" value="watermelon"></option>
+                    <option label="Raspberry" value="raspberry"></option>
+                    <option label="Lemon" value="lemon"></option>
+                </autocomplete-combobox>
+                <numeric-input 
+                    lang="en"
+                    class="mb-2 w-full form"
+                    name="weight"
+                    placeholder="select weight"
+                    id="form-numeric"
+                    required
+                ></numeric-input>
+                <numeric-input 
+                    class="mb-2 w-full form"
+                    name="weight"
+                    placeholder="numeric disabled"
+                    disabled
+                ></numeric-input>
+                <numeric-input 
+                    class="mb-2 w-full form"
+                    name="weight"
+                    max="100"
+                    min="10"
+                    required
+                    id="form-numeric-2"
+                    placeholder="numeric range"
+                ></numeric-input>
+                <date-input
+                    name="date"
+                    required
+                    class="mb-2 w-full form"
+                    placeholder="select date"
+                ></date-input>
+                <div class="grid grid-cols-2 gap-2">
+                    <button type="reset" class="bg-red-500 text-sm hover:bg-red-600 text-white font-semibold p-2 rounded">
+                        Reset
+                    </button>
+                    <button type="submit" class="bg-blue-500 text-sm hover:bg-blue-600 text-white font-semibold p-2 rounded">
+                        Submit
+                    </button>
+                </div>
+                <script>
+                    document.querySelector('#form-numeric').formatOptions = { "style": "unit", unit: 'kilogram' };
+                    document.querySelector('#form-numeric-2').formatOptions = { "style": "currency", "currency": "USD" };
+                </script>
+            </form>
         </div>
     </div>
 </div>
 
-<script type="module">
-    const dateInput = document.querySelector('date-input#js-controlled');
-
-    const displayDate = (value) => {
-        const dateMessage = document.querySelector('p#input-date');
-        dateMessage.textContent = `${value}`; 
+<style>
+    autocomplete-combobox::part(input),
+    numeric-input::part(input),
+    date-input::part(input) {
+        border: 1px solid black;
     }
-
-    // read valueAsDate from value
-    dateInput?.addEventListener('input', (e) => {
-        const inputElement = e.target;
-        displayDate(inputElement.value);
-    });
-
-    // write valueAsDate using value
-    if(dateInput) {
-        dateInput.value = new Date();
-        displayDate(dateInput.value);
+    autocomplete-combobox.custom {
+        --text-color: #000;
+        --option-background: #fff;
+        --input-background: #fff;
     }
+    autocomplete-combobox.custom::part(input) {
+        box-sizing:border-box;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    autocomplete-combobox.custom::part(input):focus {
+        outline: none;
+        border-color: #007BFF;
+    }
+    autocomplete-combobox.custom::part(listbox) {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 10px;
 
-    // add options using js
-    document.querySelector('#js-controlled-cb')?.options = ['red', 'green', 'blue'];
-</script>
+        --scrollbar-track-color: #fff;
+        --scrollbar-thumb-color: #007BFF;
+        --scrollbar-thumb-radius: 5px;
+        --scrollbar-width: 10px;
+    }
+    autocomplete-combobox.custom::part(option) {
+        padding: 8px;
+    }
+    autocomplete-combobox.custom::part(option):hover {
+        background-color: #ff6f6f;
+    }
+    autocomplete-combobox.custom::part(option-focused) {
+        background-color: #e4a4a4;
+    }
+    autocomplete-combobox:invalid.form::part(input),
+    autocomplete-combobox:invalid.form::part(listbox),
+    numeric-input:invalid.form::part(input),
+    date-input:invalid.form::part(input) {
+        border: 1px solid red;
+    }
+    autocomplete-combobox:valid.form::part(input),
+    autocomplete-combobox:valid.form::part(listbox),
+    numeric-input:valid.form::part(input),
+    date-input:valid.form::part(input) {
+        border: 1px solid green;
+    }
+    date-input:valid.form {
+        --date-icon-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 24 24"><path fill="green" d="M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z"/></svg>');
+    }
+    date-input:invalid.form {
+        --date-icon-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 24 24"><path fill="red" d="M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z"/></svg>');
+    }
+    numeric-input.form:disabled::part(input) {
+        border: 1px solid gray;
+    }
+</style>

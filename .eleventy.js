@@ -9,6 +9,7 @@ module.exports = function (eleventyConfig) {
         components: "./docs-src/_includes/components/**/*.webc",
     });
     eleventyConfig.addPassthroughCopy("./docs-src/css/");
+    eleventyConfig.addPassthroughCopy("./docs-src/js/");
     eleventyConfig.addWatchTarget("./docs-src/css/");
     eleventyConfig.setTemplateFormats(["md", "njk"]);
     return {

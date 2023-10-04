@@ -6,127 +6,282 @@
       "path": "./packages\\autocomplete-combobox\\src\\autocomplete-combobox\\autocomplete-combobox.ts",
       "attributes": [
         {
-          "name": "selectedValue",
-          "type": "string",
-          "default": "\"\""
-        },
-        {
-          "name": "max-height",
-          "type": "number",
-          "default": "150"
-        },
-        {
-          "name": "options",
-          "type": "string[]"
-        }
-      ],
-      "properties": [
-        {
-          "name": "styles",
-          "type": "CSSResult",
-          "default": "\"styles\""
-        },
-        {
-          "name": "selectedValue",
-          "attribute": "selectedValue",
-          "type": "string",
-          "default": "\"\""
-        },
-        {
-          "name": "maxHeight",
-          "attribute": "max-height",
-          "type": "number",
-          "default": "150"
-        },
-        {
-          "name": "isFocused",
+          "name": "loading",
           "type": "boolean",
           "default": "false"
         },
         {
+          "name": "error",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "src",
+          "type": "string"
+        },
+        {
+          "name": "options",
+          "type": "Option[]"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean"
+        },
+        {
+          "name": "required",
+          "type": "boolean"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": "\"\""
+        },
+        {
+          "name": "value",
+          "type": "string"
+        }
+      ],
+      "properties": [
+        {
           "name": "filterValue",
           "type": "string",
           "default": "\"\""
         },
         {
+          "name": "loading",
+          "attribute": "loading",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "error",
+          "attribute": "error",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "src",
+          "attribute": "src",
+          "type": "string"
+        },
+        {
+          "name": "data",
+          "type": "object"
+        },
+        {
+          "name": "debounceInput",
+          "type": "() => void",
+          "default": "\"(() => {\\r\\n            let timeout: NodeJS.Timeout | null = null;\\r\\n        \\r\\n            return () => {\\r\\n                if (timeout) clearTimeout(timeout);\\r\\n                timeout = setTimeout(() => {\\r\\n                    this.loadDataFromSrc(this.src);\\r\\n                }, 300);\\r\\n            };\\r\\n        })()\""
+        },
+        {
+          "name": "slotElement",
+          "type": "HTMLSlotElement"
+        },
+        {
+          "name": "listboxElement",
+          "type": "HTMLElement"
+        },
+        {
+          "name": "optionElements",
+          "type": "NodeListOf<OptionElement>"
+        },
+        {
           "name": "options",
           "attribute": "options",
-          "type": "string[]"
-        }
-      ]
-    },
-    {
-      "name": "combobox-input",
-      "path": "./packages\\autocomplete-combobox\\src\\combobox-input\\combobox-input.ts",
-      "attributes": [
+          "type": "Option[]"
+        },
         {
-          "name": "value",
+          "name": "role",
           "type": "string",
-          "default": "\"\""
-        }
-      ],
-      "properties": [
+          "default": "\"combobox\""
+        },
+        {
+          "name": "ariaAutoComplete",
+          "type": "string",
+          "default": "\"list\""
+        },
+        {
+          "name": "ariaHasPopup",
+          "type": "string",
+          "default": "\"listbox\""
+        },
+        {
+          "name": "formAssociated",
+          "type": "boolean",
+          "default": "true"
+        },
         {
           "name": "styles",
-          "type": "CSSResult",
-          "default": "\"styles\""
+          "type": "array",
+          "default": "[null,null,\"styles\"]"
+        },
+        {
+          "name": "inputElement",
+          "type": "HTMLInputElement"
+        },
+        {
+          "name": "disabled",
+          "attribute": "disabled",
+          "type": "boolean"
+        },
+        {
+          "name": "required",
+          "attribute": "required",
+          "type": "boolean"
+        },
+        {
+          "name": "placeholder",
+          "attribute": "placeholder",
+          "type": "string",
+          "default": "\"\""
         },
         {
           "name": "value",
           "attribute": "value",
-          "type": "string",
-          "default": "\"\""
+          "type": "string"
+        },
+        {
+          "name": "form"
+        },
+        {
+          "name": "name",
+          "type": "string | null"
+        },
+        {
+          "name": "type",
+          "type": "string"
+        },
+        {
+          "name": "validity"
+        },
+        {
+          "name": "validationMessage"
+        },
+        {
+          "name": "willValidate"
+        },
+        {
+          "name": "tabIndex",
+          "type": "number",
+          "default": "0"
         }
       ],
       "events": [
         {
-          "name": "combobox-input"
-        }
-      ]
-    },
-    {
-      "name": "options-list",
-      "path": "./packages\\autocomplete-combobox\\src\\options-list\\options-list.ts",
-      "attributes": [
-        {
-          "name": "options",
-          "type": "string[]",
-          "default": "[]"
+          "name": "load"
         },
         {
-          "name": "filterValue",
-          "type": "string",
-          "default": "\"\""
-        }
-      ],
-      "properties": [
-        {
-          "name": "styles",
-          "type": "CSSResult",
-          "default": "\"styles\""
+          "name": "change"
         },
         {
-          "name": "options",
-          "attribute": "options",
-          "type": "string[]",
-          "default": "[]"
+          "name": "focus"
         },
         {
-          "name": "filterValue",
-          "attribute": "filterValue",
-          "type": "string",
-          "default": "\"\""
-        }
-      ],
-      "events": [
+          "name": "blur"
+        },
         {
-          "name": "option-click"
+          "name": "input"
         }
       ]
     },
     {
       "name": "date-input",
-      "path": "./packages\\numeric-input\\src\\date-input\\date-input.ts"
+      "path": "./packages\\numeric-input\\src\\date-input\\date-input.ts",
+      "attributes": [
+        {
+          "name": "disabled",
+          "type": "boolean"
+        },
+        {
+          "name": "required",
+          "type": "boolean"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": "\"\""
+        },
+        {
+          "name": "value",
+          "type": "string"
+        }
+      ],
+      "properties": [
+        {
+          "name": "formAssociated",
+          "type": "boolean",
+          "default": "true"
+        },
+        {
+          "name": "styles",
+          "type": "array",
+          "default": "[null,null]"
+        },
+        {
+          "name": "inputElement",
+          "type": "HTMLInputElement"
+        },
+        {
+          "name": "disabled",
+          "attribute": "disabled",
+          "type": "boolean"
+        },
+        {
+          "name": "required",
+          "attribute": "required",
+          "type": "boolean"
+        },
+        {
+          "name": "placeholder",
+          "attribute": "placeholder",
+          "type": "string",
+          "default": "\"\""
+        },
+        {
+          "name": "value",
+          "attribute": "value",
+          "type": "string"
+        },
+        {
+          "name": "form"
+        },
+        {
+          "name": "name",
+          "type": "string | null"
+        },
+        {
+          "name": "type",
+          "type": "string"
+        },
+        {
+          "name": "validity"
+        },
+        {
+          "name": "validationMessage"
+        },
+        {
+          "name": "willValidate"
+        },
+        {
+          "name": "tabIndex",
+          "type": "number",
+          "default": "0"
+        }
+      ],
+      "events": [
+        {
+          "name": "change"
+        },
+        {
+          "name": "focus"
+        },
+        {
+          "name": "blur"
+        },
+        {
+          "name": "input"
+        }
+      ]
     },
     {
       "name": "numeric-input",
@@ -138,13 +293,29 @@
           "default": "\"language\""
         },
         {
-          "name": "format-options",
+          "name": "formatOptions",
           "type": "NumberFormatOptions | undefined"
         },
         {
-          "name": "no-spinner",
-          "type": "boolean",
-          "default": "false"
+          "name": "min",
+          "type": "number"
+        },
+        {
+          "name": "max",
+          "type": "number"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean"
+        },
+        {
+          "name": "required",
+          "type": "boolean"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": "\"\""
         },
         {
           "name": "value",
@@ -160,14 +331,48 @@
         },
         {
           "name": "formatOptions",
-          "attribute": "format-options",
+          "attribute": "formatOptions",
           "type": "NumberFormatOptions | undefined"
         },
         {
-          "name": "noSpinner",
-          "attribute": "no-spinner",
+          "name": "min",
+          "attribute": "min",
+          "type": "number"
+        },
+        {
+          "name": "max",
+          "attribute": "max",
+          "type": "number"
+        },
+        {
+          "name": "formAssociated",
           "type": "boolean",
-          "default": "false"
+          "default": "true"
+        },
+        {
+          "name": "styles",
+          "type": "array",
+          "default": "[null,\"styles\"]"
+        },
+        {
+          "name": "inputElement",
+          "type": "HTMLInputElement"
+        },
+        {
+          "name": "disabled",
+          "attribute": "disabled",
+          "type": "boolean"
+        },
+        {
+          "name": "required",
+          "attribute": "required",
+          "type": "boolean"
+        },
+        {
+          "name": "placeholder",
+          "attribute": "placeholder",
+          "type": "string",
+          "default": "\"\""
         },
         {
           "name": "value",
@@ -175,18 +380,43 @@
           "type": "string"
         },
         {
-          "name": "raw",
+          "name": "form"
+        },
+        {
+          "name": "name",
           "type": "string | null"
         },
         {
-          "name": "styles",
-          "type": "CSSResult",
-          "default": "\"styles\""
+          "name": "type",
+          "type": "string"
+        },
+        {
+          "name": "validity"
+        },
+        {
+          "name": "validationMessage"
+        },
+        {
+          "name": "willValidate"
+        },
+        {
+          "name": "tabIndex",
+          "type": "number",
+          "default": "0"
         }
       ],
       "events": [
         {
-          "name": "format"
+          "name": "change"
+        },
+        {
+          "name": "focus"
+        },
+        {
+          "name": "blur"
+        },
+        {
+          "name": "input"
         }
       ]
     },
@@ -210,16 +440,16 @@
           "default": "\"timeZone\""
         },
         {
-          "name": "label",
-          "type": "string",
-          "default": "\"\""
+          "name": "error",
+          "type": "boolean",
+          "default": "false"
         }
       ],
       "properties": [
         {
           "name": "styles",
           "type": "CSSResult",
-          "default": "\"css`\\r\\n        :host {\\r\\n            cursor: pointer;\\r\\n            user-select: none;\\r\\n        }\\r\\n\\r\\n        .error-text {\\r\\n            text-decoration: underline wavy red;\\r\\n        }\\r\\n    `\""
+          "default": "\"css`\\r\\n        :host {\\r\\n            cursor: pointer;\\r\\n            user-select: none;\\r\\n        }\\r\\n\\r\\n        :host([error])  {\\r\\n            cursor: default;\\r\\n            text-decoration: underline wavy red;\\r\\n        }\\r\\n    `\""
         },
         {
           "name": "formats",
@@ -245,10 +475,10 @@
           "default": "\"timeZone\""
         },
         {
-          "name": "label",
-          "attribute": "label",
-          "type": "string",
-          "default": "\"\""
+          "name": "error",
+          "attribute": "error",
+          "type": "boolean",
+          "default": "false"
         }
       ]
     }

@@ -6,6 +6,7 @@
     "packages/*"
   ],
   "scripts": {
+    "dev": "concurrently \"npm run dev:11ty\" \"npm run dev:css\"",
     "dev:11ty": "eleventy --serve",
     "dev:css": "tailwindcss -i docs-src/css/style.css -o docs/css/style.css --watch --postcss",
     "build:11ty": "eleventy",
