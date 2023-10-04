@@ -41,7 +41,7 @@ export const FormInputMixin = <T extends Constructor<LitElement>>(
                     display: inline-block;
                     width: 150px;
                 }
-                :host::part(input) {
+                input {
                     box-sizing: border-box;
                     width: 100%;
                     height: 100%;
