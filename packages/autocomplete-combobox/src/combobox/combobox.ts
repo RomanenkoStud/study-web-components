@@ -29,36 +29,6 @@ export class ComboboxElement extends FormInputMixin(LitElement) {
     private _options: Record<string, Option> = {};
     protected anchorController!: AnchorController;
 
-    set value(newValue: string) {
-        if (!newValue) {
-            super.value = '';
-            this.requestUpdate("value");
-            this.onChange();
-            return;
-        }
-
-        const option = this.getOption(newValue);
-
-        if (option) {
-            if (!option.disabled) {
-                super.value = newValue;
-            } else {
-                super.value = '';
-                console.warn(`Option with value "${newValue}" is disabled.`);  
-            }
-        } else {
-            super.value = '';
-            console.warn(`Option with value "${newValue}" does not exist.`);
-        }
-
-        this.requestUpdate("value");
-        this.onChange();
-    }
-
-    get value() {
-        return super.value;
-    }
-
     @property({ type: Array })
     set options(newOptions: Option[]) {
         this._options = newOptions.reduce((acc, option) => {
@@ -129,9 +99,18 @@ export class ComboboxElement extends FormInputMixin(LitElement) {
 
     updated(changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>) {
         super.updated(changedProperties);
-        if(changedProperties.has('value') && this.inputElement) {
+        if(changedProperties.has('value') && this.value && this.options.length) {
             const option = this.getOption(this.value);
-            this.inputElement.value = option ? option.label : '';
+
+            if (option) {
+                if (option.disabled) {
+                    console.warn(`Option with value "${this.value}" is disabled.`);  
+                    this.value = '';
+                }
+            } else {
+                console.warn(`Option with value "${this.value}" does not exist.`);
+                this.value = '';
+            }
         }
     }
 
@@ -187,6 +166,7 @@ export class ComboboxElement extends FormInputMixin(LitElement) {
             <input
                 part="input"
                 type="text"
+                .value=${this.getOption(this.value)?.label ?? ''}
                 @input=${this.onInput}
                 @focus=${this.onFocus}
                 @blur=${this.onBlur}

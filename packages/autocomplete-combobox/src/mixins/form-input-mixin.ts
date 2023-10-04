@@ -61,6 +61,7 @@ export const FormInputMixin = <T extends Constructor<LitElement>>(
         @property({ type: String })
         set value(newValue: string) {
             this._value = newValue;
+            this.requestUpdate("value");
             this.onChange();
         }
 
@@ -104,7 +105,6 @@ export const FormInputMixin = <T extends Constructor<LitElement>>(
         formAssociatedCallback(nullableForm: HTMLFormElement | null) {
             this.validate();
             this.setFormValue(this.value, this.value);
-            return;
         }
     
         formResetCallback() {
