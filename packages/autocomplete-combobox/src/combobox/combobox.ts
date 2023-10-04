@@ -2,6 +2,7 @@ import { LitElement, html, unsafeCSS } from 'lit';
 import { property, query, queryAll } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import {cache} from 'lit/directives/cache.js';
+import { FormInputMixin } from '../mixins';
 import { Option } from '../types';
 import { AnchorController } from '../controllers';
 
@@ -14,33 +15,23 @@ export interface OptionElement extends HTMLElement {
     scrollIntoViewIfNeeded: () => void;
 };
 
-export class ComboboxElement extends LitElement {
-    static formAssociated = true;
-
+export class ComboboxElement extends FormInputMixin(LitElement) {
     static styles = [
         ...[super.styles ?? []],
         unsafeCSS(popoverPolyfill), 
         styles,
     ];
 
-    @query('input') inputElement!: HTMLInputElement;
     @query('slot') slotElement!: HTMLSlotElement;
     @query('ul') listboxElement!: HTMLElement;
     @queryAll('li') optionElements!: NodeListOf<OptionElement>;
 
-    @property({ type: Boolean, reflect: true }) disabled!: boolean;
-    @property({ type: Boolean, reflect: true }) required!: boolean;
-    @property({ type: String, reflect: true }) placeholder = '';
-
-    private _internals!: ElementInternals;
     private _options: Record<string, Option> = {};
-    private _value = '';
     protected anchorController!: AnchorController;
 
-    @property({ type: String })
     set value(newValue: string) {
         if (!newValue) {
-            this._value = '';
+            super.value = '';
             this.inputElement.value = '';
             this.onChange();
             return;
@@ -50,14 +41,14 @@ export class ComboboxElement extends LitElement {
 
         if (option) {
             if (!option.disabled) {
-                this._value = newValue;
+                super.value = newValue;
                 this.inputElement.value = option.label;
             } else {
-                this._value = '';
+                super.value = '';
                 console.warn(`Option with value "${newValue}" is disabled.`);  
             }
         } else {
-            this._value = '';
+            super.value = '';
             console.warn(`Option with value "${newValue}" does not exist.`);
         }
 
@@ -65,7 +56,7 @@ export class ComboboxElement extends LitElement {
     }
 
     get value() {
-        return this._value;
+        return super.value;
     }
 
     @property({ type: Array })
@@ -104,9 +95,7 @@ export class ComboboxElement extends LitElement {
 
     constructor(...params: any) {
         super();
-        this._internals = this.attachInternals();
         this.role = "combobox";
-        this.tabIndex = 0;
         this.ariaAutoComplete = "list";
         this.ariaHasPopup = "listbox";
 
@@ -116,19 +105,8 @@ export class ComboboxElement extends LitElement {
         }
     }
 
-    connectedCallback() {
-        super.connectedCallback();
-        this.addEventListener('focusin', this.focusInput);
-        this.addEventListener('focusout', this.blurInput);
-    }
-
-    disconnectedCallback() {
-        super.disconnectedCallback();
-        this.removeEventListener('focusin', this.focusInput);
-        this.removeEventListener('focusout', this.blurInput);
-    }
-
-    firstUpdated() {
+    firstUpdated(...params: any) {
+        super.firstUpdated(params);
         if (this.options.length === 0) {
             this.slotElement.addEventListener('slotchange', () => {
                 const optionElements = this.slotElement.assignedNodes().filter((node) =>
@@ -149,61 +127,14 @@ export class ComboboxElement extends LitElement {
         }
     }
 
-    onChange() {
-        this._internals.setValidity({ 
-            valueMissing: this.required && this.value.trim() === '',
-        }, 'Invalid input.');
-        this._internals.setFormValue(this.value);
-        this.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
-    }
-
-    focusInput() {
-        this.inputElement.focus(); 
-        this.tabIndex = -1;
-    }
-
-    blurInput() {
-        this.tabIndex = 0;
-    }
-
-    get form() { return this._internals.form; }
-    get name() { return this.getAttribute('name'); }
-    get type() { return this.localName; }
-    get validity() { return this._internals.validity; }
-    get validationMessage() { return this._internals.validationMessage; }
-    get willValidate() { return this._internals.willValidate; }
-
-    formAssociatedCallback(nullableForm: HTMLFormElement | null) {
-        this._internals.setValidity({ 
-            valueMissing: this.required && this.value.trim() === '',
-        }, 'Invalid input.');
-        this._internals.setFormValue(this.value);
-        return;
-    }
-
-    formResetCallback() {
-        this.value = '';
-    }
-
-    formStateRestoreCallback(state: string, mode: string) {
-        this.value = state;
-    }
-
-    reportValidity(): boolean { return this._internals.reportValidity(); }
-    checkValidity(): boolean { return this._internals.checkValidity(); }
-
     onFocus() {
+        super.onFocus();
         this.showOptions();
-        this.dispatchEvent(new Event('focus', { bubbles: true, composed: true }));
     }
 
     onBlur() {
+        super.onFocus();
         this.hideOptions();
-        this.dispatchEvent(new Event('blur', { bubbles: true, composed: true }));
-    }
-
-    onInput() {
-        this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
     }
 
     onOptionClick(value: string) {

@@ -30,9 +30,6 @@ export const styles = css`
     }
 
     :host::part(input) {
-        box-sizing: border-box;
-        width: 100%;
-        height: 100%;
         background-color: var(--input-background);
         color: var(--text-color);
     }

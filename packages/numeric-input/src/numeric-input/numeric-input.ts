@@ -1,26 +1,13 @@
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { FormInputMixin } from '../mixins';
 
 import { styles } from './numeric-input.css';
 
-export type NumericInputElement = Omit<HTMLInputElement, 'type' | 'inputmode'> & {
-    raw: string | null;
-};
-
 @customElement('numeric-input')
-export class NumericInput extends LitElement {
+export class NumericInput extends FormInputMixin(LitElement) {
     @property({ type: String }) lang = navigator.language;
     @property({ type: Object }) formatOptions?: Intl.NumberFormatOptions;
-    private _value: string = '';
-
-    @property({ type: String })
-    get value(): string {
-        return this.format(this._value);
-    }
-
-    set value(newValue: string) {
-        this._value = newValue;
-    }
 
     private get formatter() {
         const fmt = new Intl.NumberFormat(this.lang, this.formatOptions);
@@ -38,48 +25,49 @@ export class NumericInput extends LitElement {
         }
     }
 
-    private onFocus(e: Event): void {
-        const inputElement = e.target as HTMLInputElement;
-        if (inputElement.type === 'text') {
-            const old = this._value || '';
-            this._value = '';
-            inputElement.type = 'number';
-            inputElement.value = old;
-        }
+    onFocus(): void {
+        super.onFocus();
+        this.inputElement.type = 'number';
+        this.inputElement.value = this.value;
     }
 
-    private onBlur(e: Event): void {
-        const inputElement = e.target as HTMLInputElement;
-        if (inputElement.type === 'number') {
-            inputElement.type = 'text';
-            this._value = inputElement.value;
-            const rawNumber = Number.parseFloat(inputElement.value);
-            if (!isNaN(rawNumber)) {
-                this.value = inputElement.value;
-                inputElement.setCustomValidity('');
-            } else {
-                this.value = '';
-                if (inputElement.value) {
-                    inputElement.setCustomValidity('Not a number');
-                }
-            }
-            inputElement.value = this.value;
-
-            const customEvent = new CustomEvent('format');
-            this.dispatchEvent(customEvent);
-        }
+    onBlur(): void {
+        super.onBlur();
+        this.inputElement.type = 'text';
+        this.value = this.inputElement.value;
+        this.inputElement.value = this.format(this.value);
     }
 
-    static styles = styles;
+    formResetCallback() {
+        this.value = '';
+        this.inputElement.value = '';
+    }
+
+    formStateRestoreCallback(state: string, mode: string) {
+        this.value = state;
+        this.inputElement.value = this.format(state);
+    }
+
+    onInput() {
+        super.onInput();
+        this.value = this.inputElement.valueAsDate?.toISOString() ?? '';
+    }
+
+    static styles = [
+        ...[super.styles ?? []],
+        styles,
+    ];
 
     render() {
         return html`
             <input
+                value=${this.format(this.value)}
                 type="text"
                 inputmode="numeric"
-                .value=${this.value}
                 @focus=${this.onFocus}
                 @blur=${this.onBlur}
+                autocomplete="off"
+                part="input"
             />
         `;
     }
