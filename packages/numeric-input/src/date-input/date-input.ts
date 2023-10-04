@@ -38,7 +38,10 @@ export class DateInput extends FormInputMixin(LitElement) {
                 type="date"
                 .valueAsDate=${this.valueAsDate}
                 @input=${this.onInput}
+                @focus=${this.onFocus}
+                @blur=${this.onBlur}
                 part="input"
+                ?disabled=${this.disabled}
             />
         `;
     }

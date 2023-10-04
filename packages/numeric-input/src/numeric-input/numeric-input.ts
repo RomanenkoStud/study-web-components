@@ -64,10 +64,13 @@ export class NumericInput extends FormInputMixin(LitElement) {
                 value=${this.format(this.value)}
                 type="text"
                 inputmode="numeric"
+                @input=${this.onInput}
                 @focus=${this.onFocus}
                 @blur=${this.onBlur}
                 autocomplete="off"
                 part="input"
+                .placeholder=${this.placeholder}
+                ?disabled=${this.disabled}
             />
         `;
     }
