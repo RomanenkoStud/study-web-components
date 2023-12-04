@@ -8,8 +8,12 @@ export default defineConfig({
     ],
     build: {
         lib: {
-            entry: resolve(__dirname, 'src/index.ts'),
+            entry: {
+                "simple-timestamp": resolve(__dirname, 'src/index.ts'), 
+                "utils": resolve(__dirname, 'src/utils/index.ts'),
+            },
             name: "@romanenko.pavlo/simple-timestamp",
+            formats: ['es', 'cjs'],
         },
     }
 });
