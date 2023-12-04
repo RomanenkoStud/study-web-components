@@ -1,5 +1,5 @@
 {
-  "name": "@romanenko.pavlo/simple-timestamp",
+  "name": "@romanenko-dev/simple-timestamp",
   "version": "1.0.5",
   "type": "module",
   "description": "A simple timestamp library for formatting and displaying timestamps.",
