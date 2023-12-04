@@ -1,6 +1,6 @@
 {
   "name": "@romanenko-dev/simple-timestamp",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "type": "module",
   "description": "A simple timestamp library for formatting and displaying timestamps.",
   "files": [
@@ -9,6 +9,16 @@
   "main": "./dist/simple-timestamp.js",
   "module": "./dist/simple-timestamp.cjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/simple-timestamp.d.ts"
+      ],
+      "utils": [
+        "dist/utils.d.ts"
+      ]
+    }
+  },
   "exports": {
     ".": {
       "import": "./dist/simple-timestamp.js",
